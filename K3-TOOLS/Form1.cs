@@ -101,6 +101,7 @@ namespace K3_TOOLS
         //https://www.c-sharpcorner.com/blogs/drag-and-drop-file-on-windows-forms1
         private void panel1_DragDrop(object sender, DragEventArgs e)
         {
+            //TODO: Fix so it works for folders (Get files inside of folder?)
             foreach (string file in e.Data.GetData(DataFormats.FileDrop) as string[])
             {
                 if (!files.ContainsKey(file))
