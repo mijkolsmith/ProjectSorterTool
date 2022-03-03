@@ -2,9 +2,6 @@
 {
 	public class CSharpScript : FileType
 	{
-		public CSharpScript()
-		{
-			FolderName = "Scripts";
-		}
+		public CSharpScript(string filePath, string folderName) : base(filePath, folderName) { }
 	}
 }

@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace K3_TOOLS
 {
-	public class FileType
+	public abstract class FileType
 	{
-		public virtual string FilePath { get; private set; }
+		public virtual string FilePath { get; protected set; }
 		public virtual string FolderName { get; protected set; }
-
-		public void SetFolderName(string name) { FolderName = name; }
-		public void SetFilePath(string path) { FilePath = path; }
+		protected FileType(string filePath, string folderName)
+		{
+			FilePath = filePath;
+			FolderName = folderName;
+		}
+		public virtual void SetFolderName(string folderName) { FolderName = folderName; }
+		public virtual void SetFilePath(string filePath) { FilePath = filePath; }
 	}
 }

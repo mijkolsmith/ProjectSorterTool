@@ -2,9 +2,6 @@
 {
 	public class CssScript : FileType
 	{
-		public CssScript()
-		{
-			FolderName = "Css";
-		}
+		public CssScript(string filePath, string folderName) : base(filePath, folderName) { }
 	}
 }

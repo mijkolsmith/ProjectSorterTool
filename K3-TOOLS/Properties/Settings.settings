@@ -26,5 +26,26 @@
     <Setting Name="SettingsWindowHeight" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="ImageFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Images</Value>
+    </Setting>
+    <Setting Name="AudioFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Audio</Value>
+    </Setting>
+    <Setting Name="VideoFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Video</Value>
+    </Setting>
+    <Setting Name="ModelFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">3D Models</Value>
+    </Setting>
+    <Setting Name="CSharpScriptFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Scripts</Value>
+    </Setting>
+    <Setting Name="HtmlScriptFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">html</Value>
+    </Setting>
+    <Setting Name="CssScriptFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">css</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -2,9 +2,6 @@
 {
 	public class Video : FileType
 	{
-		public Video()
-		{
-			FolderName = "Video";
-		}
+		public Video(string filePath, string folderName) : base(filePath, folderName) { }
 	}
 }

@@ -118,5 +118,89 @@ namespace K3_TOOLS.Properties {
                 this["SettingsWindowHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Images")]
+        public string ImageFolderName {
+            get {
+                return ((string)(this["ImageFolderName"]));
+            }
+            set {
+                this["ImageFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Audio")]
+        public string AudioFolderName {
+            get {
+                return ((string)(this["AudioFolderName"]));
+            }
+            set {
+                this["AudioFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Video")]
+        public string VideoFolderName {
+            get {
+                return ((string)(this["VideoFolderName"]));
+            }
+            set {
+                this["VideoFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3D Models")]
+        public string ModelFolderName {
+            get {
+                return ((string)(this["ModelFolderName"]));
+            }
+            set {
+                this["ModelFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Scripts")]
+        public string CSharpScriptFolderName {
+            get {
+                return ((string)(this["CSharpScriptFolderName"]));
+            }
+            set {
+                this["CSharpScriptFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("html")]
+        public string HtmlScriptFolderName {
+            get {
+                return ((string)(this["HtmlScriptFolderName"]));
+            }
+            set {
+                this["HtmlScriptFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("css")]
+        public string CssScriptFolderName {
+            get {
+                return ((string)(this["CssScriptFolderName"]));
+            }
+            set {
+                this["CssScriptFolderName"] = value;
+            }
+        }
     }
 }

@@ -2,9 +2,6 @@
 {
 	public class Audio : FileType
 	{
-		public Audio()
-		{
-			FolderName = "Audio";
-		}
+		public Audio(string filePath, string folderName) : base(filePath, folderName) { }
 	}
 }

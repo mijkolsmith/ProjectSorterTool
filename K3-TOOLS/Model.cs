@@ -2,9 +2,6 @@
 {
 	public class Model : FileType
 	{
-		public Model()
-		{
-			FolderName = "Models";
-		}
+		public Model(string filePath, string folderName) : base(filePath, folderName) { }
 	}
 }

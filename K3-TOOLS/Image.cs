@@ -2,9 +2,6 @@
 {
 	public class Image : FileType
 	{
-		public Image()
-		{
-			FolderName = "Image";
-		}
+		public Image(string filePath, string folderName) : base(filePath, folderName) { }
 	}
 }

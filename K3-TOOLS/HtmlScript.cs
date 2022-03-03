@@ -2,9 +2,6 @@
 {
 	public class HtmlScript : FileType
 	{
-		public HtmlScript()
-		{
-			FolderName = "Html";
-		}
+		public HtmlScript(string filePath, string folderName) : base(filePath, folderName) { }
 	}
 }

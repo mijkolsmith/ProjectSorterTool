@@ -13,7 +13,10 @@ namespace K3_TOOLS
 	public partial class ProjectSorterForm : Form
 	{
         private string baseDirectory;
-        private Dictionary<string, FileType> files = new Dictionary<string, FileType>();
+        //private Dictionary<string, FileType> filePaths = new Dictionary<string, FileType>();
+
+        private List<FileType> files = new List<FileType>();
+        private List<FileType> projectFiles = new List<FileType>();
         private List<Label> labels = new List<Label>();
         private int displayedAmount;
         private SettingsForm settingsForm;
@@ -30,6 +33,7 @@ namespace K3_TOOLS
         /// </summary>
         private void ProjectSorterForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            Console.WriteLine("Saving...");
             // Copy window location to app settings
             Settings.Default.WindowLocation = Location;
 
@@ -50,7 +54,6 @@ namespace K3_TOOLS
 
             // Save app settings
             Settings.Default.Save();
-            Console.WriteLine("Saving...");
         }
 
         /// <summary>
@@ -58,6 +61,7 @@ namespace K3_TOOLS
         /// </summary>
         private void ProjectSorterForm_Load(object sender, EventArgs e)
         {
+            Console.WriteLine("Loading...");
             // Set window location
             if (Settings.Default.WindowLocation != null)
             {
@@ -78,7 +82,14 @@ namespace K3_TOOLS
                 baseDirectoryLabel.Text = baseDirectory;
             }
 
-            Console.WriteLine("Loading...");
+            // Load other settings
+            sortExistingFiles = Settings.Default.SortExistingFiles;
+
+            // Load folder names
+            foreach (var file in files)
+			{
+                file.SetFolderName(GetFileType(file.FilePath).FolderName);
+			}
         }
 
         /// <summary>
@@ -89,31 +100,31 @@ namespace K3_TOOLS
             string ext = Path.GetExtension(filePath).ToLower();
             if ((ext == ".jpg") || (ext == ".png") || (ext == ".bmp") || (ext == ".apng") || (ext == ".avif") || (ext == ".gif") || (ext == ".jpeg") || (ext == ".jfif") || (ext == ".pjpeg") || (ext == ".pjp") || (ext == ".webp"))
             {
-                return new Image();
+                return new Image(filePath, Settings.Default.ImageFolderName);
             }
             if ((ext == ".wav") || (ext == ".mp3") || (ext == ".aac") || (ext == ".aiff") || (ext == ".alac") || (ext == ".flac") || (ext == ".m4a") || (ext == ".ogg") || (ext == ".mogg") || (ext == ".oga") || (ext == ".wma"))
             {
-                return new Audio();
+                return new Audio(filePath, Settings.Default.AudioFolderName);
             }
             if ((ext == ".mp4") || (ext == ".wmv") || (ext == ".mov") || (ext == ".avi") || (ext == ".avchd") || (ext == ".flv") || (ext == ".f4v") || (ext == ".swf") || (ext == ".mkv") || (ext == ".webm") || (ext == ".html5") || (ext == ".ts") || (ext == ".ts") || (ext == ".amv") || (ext == ".m4v") || (ext == ".m4p") || (ext == ".mpg") || (ext == ".mpeg") || (ext == ".m2v") || (ext == ".mpv") || (ext == ".m4v") || (ext == ".3gp") || (ext == ".3g2"))
             {
-                return new Video();
+                return new Video(filePath, Settings.Default.VideoFolderName);
             }
             if ((ext == ".gtlf") || (ext == ".glb") || (ext == ".fbx") || (ext == ".obj") || (ext == ".usdz") || (ext == ".usd") || (ext == ".stl") || (ext == ".max") || (ext == ".x3d") || (ext == ".vrml") || (ext == ".3mf") || (ext == ".dae"))
             {
-                return new Model();
+                return new Model(filePath, Settings.Default.ModelFolderName);
             }
             if (ext == ".cs")
             {
-                return new CSharpScript();
+                return new CSharpScript(filePath, Settings.Default.CSharpScriptFolderName);
             }
             if ((ext == ".html") || (ext == ".htm") || (ext == ".xhtml") || (ext == ".jhtml"))
             {
-                return new HtmlScript();
+                return new HtmlScript(filePath, Settings.Default.HtmlScriptFolderName);
             }
             if (ext == ".css")
             {
-                return new CssScript();
+                return new CssScript(filePath, Settings.Default.CssScriptFolderName);
             }/*
             if (ext == ".js")
             {
@@ -140,27 +151,19 @@ namespace K3_TOOLS
                 return FileType.Python;
 			}*/
 
-            else return new GenericFile();
+            else return new GenericFile(filePath, "Other");
         }
         
         //https://www.c-sharpcorner.com/blogs/drag-and-drop-file-on-windows-forms1
         private void FileDropPanel_DragDrop(object sender, DragEventArgs e)
         {
             //TODO: Fix so it works for folders (Get files inside of folder?)
-            foreach (string file in e.Data.GetData(DataFormats.FileDrop) as string[])
+            //TODO: ctrl+c + ctrl+v should work as well
+            foreach (string filePath in e.Data.GetData(DataFormats.FileDrop) as string[])
             {
-                if (!files.ContainsKey(file))
+                if (files.Where(x => x.FilePath == filePath).FirstOrDefault() == null)
                 {
-                    files.Add(file, GetFileType(file));
-                    Label fileLabel = new Label();
-                    fileLabel.Text = file;
-                    fileLabel.Height = 16;
-                    fileLabel.Location = new Point(0, 0 + fileLabel.Height * displayedAmount);
-                    fileLabel.AutoSize = true;
-                    FileDropPanel.Controls.Add(fileLabel);
-
-                    labels.Add(fileLabel);
-                    displayedAmount++;
+                    AddFilePath(filePath);
                 }
             }
         }
@@ -173,6 +176,7 @@ namespace K3_TOOLS
 
         private void SortButton_Click(object sender, EventArgs e)
         {
+            // Update status display
             if (baseDirectory == null)
             {
                 statusLabel.Text = "Status: Project directory not set";
@@ -181,53 +185,103 @@ namespace K3_TOOLS
             statusLabel.Text = "Status: Sorting...";
 
             if (sortExistingFiles)
+            {
                 GetExistingProjectFiles();
+                foreach (FileType projectFile in projectFiles)
+                {
+                    SortFile(projectFile);
+                    File.Delete(projectFile.FilePath);
+                }
+            }
 
-            SortFiles();
+            foreach (FileType file in files)
+            {
+                SortFile(file);
+            }
 
-            labels.RemoveAll(x => x.GetType() == typeof(Label));
+            // Clear the lists and remove the visuals (Reset the program)
+            files.Clear();
+            projectFiles.Clear();
+			foreach (Label fileLabel in labels)
+			{
+                FileDropPanel.Controls.Remove(fileLabel);
+            }
             labels.Clear();
             displayedAmount = 0;
+
+            // Update Status Display
+            statusLabel.Text = "Status: Done";
         }
 
         /// <summary>
-        /// Adds all existing project files to the files list
+        /// Gets all existing project files to the files list and calls AddFile for each one of them
         /// </summary>
         private void GetExistingProjectFiles()
 		{
-            //TODO: Add existing project files to the files list
-            Console.WriteLine("getting existing project files");
-		}
-
-        /// <summary>
-        /// A file sorter algorithm.
-        /// This function creates new folders for every file in the files list based on their file type and sorts them there.
-        /// </summary>
-        private void SortFiles()
-		{
-            foreach (var fileType in files.Values.ToList())
+            string[] projectFilePaths = Directory.GetFiles(baseDirectory, "*.*", SearchOption.AllDirectories);
+            foreach (var filePath in projectFilePaths)
             {
-                // Get the destinationPath of the current fileType
-                string destinationPath =
-                    fileType.GetType() == typeof(GenericFile) ? baseDirectory : 
-                    Path.Combine(baseDirectory, fileType.FolderName);
-
-                // Create a new directory if it doesn't exist yet
-                if (Directory.Exists(destinationPath))
-                {
-                    Directory.CreateDirectory(destinationPath);
-                }
-
-                // For all files of this fileType
-                foreach (string filePath in files.Keys.Where(x => files[x] == fileType).ToList())
-                { //Copy the file into the current folder
-                    File.Copy(filePath, Path.Combine(destinationPath, Path.GetFileName(fileType.FilePath)), true);
-                }
+                if (files.Where(x => x.FilePath == filePath).FirstOrDefault() != null)
+				{
+                    files.Remove(files.Where(x => x.FilePath == filePath).FirstOrDefault());
+				}
+                projectFiles.Add(GetFileType(filePath));
             }
 		}
 
+        /// <summary>
+        /// Adds a new FileType object to files list and a new label object to the program
+        /// </summary>
+        private void AddFilePath(string filePath)
+		{
+			//TODO: ability to remove files with an x button for example
 
-        //The OpenFolderDialog interface is awful, so I'm using a CommonOpenFileDialog. This is integrated in Microsoft.WindowsAPICodePack.Dialogs. I installed this using https://www.nuget.org/packages/Microsoft-WindowsAPICodePack-Core/ . Open View > Package Manager Console and paste this line "Install-Package Microsoft-WindowsAPICodePack-Core -Version 1.1.4". Works in Visual Studio 2019 16.11.10.
+			// Add a FileType to the files list
+			files.Add(GetFileType(filePath));
+
+			// Create a label and display it in a list
+			Label fileLabel = new Label
+			{
+				Text = filePath,
+				Height = 16,
+				Location = new Point(0, 0 + Height * displayedAmount),
+				AutoSize = true
+			};
+
+			FileDropPanel.Controls.Add(fileLabel);
+			labels.Add(fileLabel);
+			displayedAmount++;
+		}
+
+        /// <summary>
+        /// This function creates a new folder for a fileType if it doesn't exist.
+        /// Sorts the file based on it's type.
+        /// </summary>
+        private void SortFile(FileType file)
+		{
+			// Get the destinationPath of the current fileType
+			string destinationPath =
+				file.GetType() == typeof(GenericFile) ? baseDirectory :
+				Path.Combine(baseDirectory, file.FolderName);
+
+			// Create a new directory if it doesn't exist yet
+			if (!Directory.Exists(destinationPath))
+			{
+				Directory.CreateDirectory(destinationPath);
+			}
+
+			// Copy the file into the current folder
+			File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileName(file.FilePath)), true);
+		}
+
+        /// <summary>
+        /// The OpenFolderDialog interface is awful, so I'm using a CommonOpenFileDialog.
+        /// This is integrated in the Microsoft.WindowsAPICodePack.Dialogs API. 
+        /// I installed this using https://www.nuget.org/packages/Microsoft-WindowsAPICodePack-Core/ . 
+        /// Open View > Package Manager Console and paste this line:
+        /// "Install-Package Microsoft-WindowsAPICodePack-Core -Version 1.1.4".
+        /// Works for me in Visual Studio 2019 16.11.10.
+        /// </summary>
         private void SetFolder_Click(object sender, EventArgs e)
 		{
             CommonOpenFileDialog dialog = new CommonOpenFileDialog();
@@ -246,8 +300,6 @@ namespace K3_TOOLS
 		{
             settingsForm = new SettingsForm();
             settingsForm.Show();
-
-            //TODO: Edit fileType/folderNames combinations
 		}
 	}
 }
