@@ -18,10 +18,19 @@ namespace K3_TOOLS
         private List<FileType> files = new List<FileType>();
         private List<FileType> projectFiles = new List<FileType>();
         private List<Label> labels = new List<Label>();
+        private List<Button> buttons = new List<Button>();
         private int displayedAmount;
         private SettingsForm settingsForm;
 
+        private int formWidth;
+        protected override void OnSizeChanged(EventArgs e)
+        {
+            base.OnSizeChanged(e);
+            formWidth = Width;
+        }
+
         private const int listLabelHeight = 16;
+        private const int removeFileButtonXPos = 16;
 
         public static bool sortExistingFiles;
 
@@ -163,7 +172,6 @@ namespace K3_TOOLS
         //https://www.c-sharpcorner.com/blogs/drag-and-drop-file-on-windows-forms1
         private void FileDropPanel_DragDrop(object sender, DragEventArgs e)
         {
-            //TODO: Fix so it works for folders (Get files inside of folder?)
             //TODO: implement ctrl+c + ctrl+v (Command pattern)
             foreach (string filePath in e.Data.GetData(DataFormats.FileDrop) as string[])
             {
@@ -213,6 +221,7 @@ namespace K3_TOOLS
                 FileDropPanel.Controls.Remove(fileLabel);
             }
             labels.Clear();
+            buttons.Clear();
             displayedAmount = 0;
 
             // Update Status Display
@@ -256,8 +265,33 @@ namespace K3_TOOLS
                     AutoSize = true
                 };
 
+                // Create an x button for the file
+                var removeFileButton = new Button
+                {
+                    BackColor = Color.Transparent,
+                    FlatAppearance = { BorderSize = 0,
+                                       MouseOverBackColor = Color.Transparent,
+                                       MouseDownBackColor = Color.Transparent },
+                    Text = "",
+                    Image = Resources.delete_button_icon_8,
+                    Height = listLabelHeight,
+                    Width = listLabelHeight + 1, // HACK: It gets cropped slightly when I do 16x16... 17x16 seems to work fine
+                    Location = new Point(formWidth - 40, 0 + listLabelHeight * displayedAmount),
+                    Anchor = AnchorStyles.Right | AnchorStyles.Top,
+                    FlatStyle = FlatStyle.Flat,
+                    Cursor = Cursors.Hand
+                };
+
+                // Add an on click event to the newly created button
+                removeFileButton.Click += new EventHandler(removeFileButton_Click);
+
+                // Display the button (first so it displays over the label) and the label and add them to their respective lists
+                FileDropPanel.Controls.Add(removeFileButton);
                 FileDropPanel.Controls.Add(fileLabel);
                 labels.Add(fileLabel);
+                buttons.Add(removeFileButton);
+
+                // Increase the displayed amount count
                 displayedAmount++;
             }
             else
@@ -267,6 +301,11 @@ namespace K3_TOOLS
                     AddFilePath(newFilePath);
 				}
             }
+		}
+
+        private void removeFileButton_Click(object sender, EventArgs e)
+		{
+            Console.WriteLine("Test");
 		}
 
         /// <summary>
@@ -292,8 +331,15 @@ namespace K3_TOOLS
                 File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileName(file.FilePath)), true);
             }
             catch (IOException) // This exception will occur if the project file already existed at the same location, I can't delete before copying
-			{
-                File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileNameWithoutExtension(file.FilePath) + " (Copy)" + Path.GetExtension(file.FilePath)), true);
+            {
+                try
+                {
+                    File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileNameWithoutExtension(file.FilePath) + " (Copy)" + Path.GetExtension(file.FilePath)), true);
+                }
+                catch (IOException) // If this exception occurs twice, it's because a user moved/deleted files
+                {
+                    throw new IOException("You can't move files while using the program");
+                }
             }
 		}
 
