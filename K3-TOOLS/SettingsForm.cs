@@ -16,19 +16,15 @@ namespace K3_TOOLS
 		public int fileTypeIndex;
 		Dictionary<string, string> folderNames = new Dictionary<string, string>();
 
-	public SettingsForm()
+		public SettingsForm()
 		{
 			InitializeComponent();
-		}
-
-		private void SortExistingFilesCheckBox_CheckedChanged(object sender, EventArgs e)
-		{
-			ProjectSorterForm.sortExistingFiles = SortExistingFilesCheckBox.Checked;
 		}
 
 		private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			Console.WriteLine("Saving Settings...");
+
 			// Copy window location to app settings
 			Settings.Default.SettingsWindowLocation = Location;
 
@@ -44,7 +40,18 @@ namespace K3_TOOLS
 				Settings.Default.SettingsWindowHeight = RestoreBounds.Height;
 			}
 
-			// Set saved settings
+			// Save folder names
+			folderNames[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key] = folderNameTextBox.Text;
+
+			Settings.Default.ImageFolderName = folderNames["Images"];
+			Settings.Default.AudioFolderName = folderNames["Audio"];
+			Settings.Default.VideoFolderName = folderNames["Video"];
+			Settings.Default.ModelFolderName = folderNames["3D Models"];
+			Settings.Default.CSharpScriptFolderName = folderNames["C# Scripts"];
+			Settings.Default.HtmlScriptFolderName = folderNames["Html"];
+			Settings.Default.CssScriptFolderName = folderNames["Css"];
+
+			// Save other settings
 			Settings.Default.SortExistingFiles = ProjectSorterForm.sortExistingFiles;
 		}
 
@@ -65,7 +72,7 @@ namespace K3_TOOLS
 				Height = Settings.Default.SettingsWindowHeight;
 			}
 
-			// Copy settings to app settings
+			// Load folder names
 			folderNames.Add("Images", Settings.Default.ImageFolderName);
 			folderNames.Add("Audio", Settings.Default.AudioFolderName);
 			folderNames.Add("Video", Settings.Default.VideoFolderName);
@@ -73,49 +80,33 @@ namespace K3_TOOLS
 			folderNames.Add("C# Scripts", Settings.Default.CSharpScriptFolderName);
 			folderNames.Add("Html", Settings.Default.HtmlScriptFolderName);
 			folderNames.Add("Css", Settings.Default.CssScriptFolderName);
-
+			
 			BindDataSource();
 
-			//I tried using reflection to get the class names.
-			/*ProjectSorterForm.sortExistingFiles = Settings.Default.SortExistingFiles;
+			// Load other settings
+			ProjectSorterForm.sortExistingFiles = Settings.Default.SortExistingFiles;
 			SortExistingFilesCheckBox.Checked = ProjectSorterForm.sortExistingFiles;
-
-			var fileTypesFolderNames = new BindingList<KeyValuePair<string, string>>();
-
-			IEnumerable<FileType> typeList = typeof(FileType).Assembly.GetTypes()
-				.Where(t => t.IsSubclassOf(typeof(FileType)) && !t.IsAbstract)
-				.Select(t => (FileType)Activator.CreateInstance(t, "test", "test"));
-
-			foreach (var type in typeList)
-			{
-				fileTypesFolderNames.Add(new KeyValuePair<string, string>(type.GetType().Name.ToString(), type.FolderName));
-			}*/
 		}
 
-		private void saveButton_Click(object sender, EventArgs e)
+		private void SortExistingFilesCheckBox_CheckedChanged(object sender, EventArgs e)
+		{
+			ProjectSorterForm.sortExistingFiles = SortExistingFilesCheckBox.Checked;
+		}
+
+		private void SaveButton_Click(object sender, EventArgs e)
 		{
 			Close();
 		}
 
-		private void fileTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-		{
+		private void FileTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{	
 			fileTypeIndex = fileTypeComboBox.SelectedIndex;
-			folderNameTextBox.Text = ((KeyValuePair<string, string>) fileTypeComboBox.SelectedItem).Value;
+			folderNameTextBox.Text = folderNames[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key];
 		}
 
-		private void folderNameTextBox_TextChanged(object sender, EventArgs e)
+		private void FileTypeComboBox_DropDown(object sender, EventArgs e)
 		{
-			//TODO: fix bug
-			fileTypeComboBox.SelectedItem = new KeyValuePair<string, string>(((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key, folderNameTextBox.Text);
-
-			if (folderNames[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key] != folderNameTextBox.Text)
-			{
-				folderNames[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key] = folderNameTextBox.Text;
-				BindDataSource();
-			}
-
-			Console.WriteLine(folderNameTextBox.Text);
-			fileTypeComboBox.SelectedItem = fileTypeIndex;
+			folderNames[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key] = folderNameTextBox.Text;
 		}
 
 		private void BindDataSource()

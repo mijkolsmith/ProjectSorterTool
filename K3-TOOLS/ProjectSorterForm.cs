@@ -270,8 +270,15 @@ namespace K3_TOOLS
 				Directory.CreateDirectory(destinationPath);
 			}
 
-			// Copy the file into the current folder
-			File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileName(file.FilePath)), true);
+            // Copy the file into the current folder
+            try
+            {
+                File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileName(file.FilePath)), true);
+            }
+            catch (IOException e)
+			{
+                File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileNameWithoutExtension(file.FilePath) + " (Copy)" + Path.GetExtension(file.FilePath)), true);
+            }
 		}
 
         /// <summary>

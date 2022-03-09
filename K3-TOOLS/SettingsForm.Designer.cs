@@ -42,14 +42,15 @@ namespace K3_TOOLS
 			this.SortExistingFilesCheckBox.AutoSize = true;
 			this.SortExistingFilesCheckBox.Location = new System.Drawing.Point(22, 22);
 			this.SortExistingFilesCheckBox.Name = "SortExistingFilesCheckBox";
-			this.SortExistingFilesCheckBox.Size = new System.Drawing.Size(187, 21);
+			this.SortExistingFilesCheckBox.Size = new System.Drawing.Size(183, 21);
 			this.SortExistingFilesCheckBox.TabIndex = 0;
-			this.SortExistingFilesCheckBox.Text = "Sort existing project Files";
+			this.SortExistingFilesCheckBox.Text = "Sort existing project files";
 			this.SortExistingFilesCheckBox.UseVisualStyleBackColor = true;
 			this.SortExistingFilesCheckBox.CheckedChanged += new System.EventHandler(this.SortExistingFilesCheckBox_CheckedChanged);
 			// 
 			// fileTypeComboBox
 			// 
+			this.fileTypeComboBox.BackColor = System.Drawing.SystemColors.HighlightText;
 			this.fileTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.fileTypeComboBox.FormattingEnabled = true;
 			this.fileTypeComboBox.Items.AddRange(new object[] {
@@ -64,7 +65,8 @@ namespace K3_TOOLS
 			this.fileTypeComboBox.Name = "fileTypeComboBox";
 			this.fileTypeComboBox.Size = new System.Drawing.Size(121, 24);
 			this.fileTypeComboBox.TabIndex = 1;
-			this.fileTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.fileTypeComboBox_SelectedIndexChanged);
+			this.fileTypeComboBox.DropDown += new System.EventHandler(this.FileTypeComboBox_DropDown);
+			this.fileTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.FileTypeComboBox_SelectedIndexChanged);
 			// 
 			// fileTypeLabel
 			// 
@@ -90,7 +92,6 @@ namespace K3_TOOLS
 			this.folderNameTextBox.Name = "folderNameTextBox";
 			this.folderNameTextBox.Size = new System.Drawing.Size(100, 22);
 			this.folderNameTextBox.TabIndex = 4;
-			this.folderNameTextBox.TextChanged += new System.EventHandler(this.folderNameTextBox_TextChanged);
 			// 
 			// saveButton
 			// 
@@ -103,7 +104,7 @@ namespace K3_TOOLS
 			this.saveButton.TabIndex = 8;
 			this.saveButton.Text = "Save Settings";
 			this.saveButton.UseVisualStyleBackColor = false;
-			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+			this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
 			// 
 			// SettingsForm
 			// 
