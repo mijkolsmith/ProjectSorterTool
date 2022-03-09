@@ -13,9 +13,9 @@ namespace K3_TOOLS
 	public partial class ProjectSorterForm : Form
 	{
         private string baseDirectory;
-        //private Dictionary<string, FileType> filePaths = new Dictionary<string, FileType>();
+        private Dictionary<int, FileType> files = new Dictionary<int, FileType>();
 
-        private List<FileType> files = new List<FileType>();
+        //private List<FileType> files = new List<FileType>();
         private List<FileType> projectFiles = new List<FileType>();
         private List<Label> labels = new List<Label>();
         private List<Button> buttons = new List<Button>();
@@ -30,7 +30,6 @@ namespace K3_TOOLS
         }
 
         private const int listLabelHeight = 16;
-        private const int removeFileButtonXPos = 16;
 
         public static bool sortExistingFiles;
 
@@ -99,12 +98,6 @@ namespace K3_TOOLS
 
             // Load other settings
             sortExistingFiles = Settings.Default.SortExistingFiles;
-
-            // Load folder names
-            foreach (var file in files)
-			{
-                file.SetFolderName(GetFileType(file.FilePath).FolderName);
-			}
         }
 
         /// <summary>
@@ -175,7 +168,7 @@ namespace K3_TOOLS
             //TODO: implement ctrl+c + ctrl+v (Command pattern)
             foreach (string filePath in e.Data.GetData(DataFormats.FileDrop) as string[])
             {
-                if (!files.Any(x => x.FilePath == filePath))
+                if (!files.Values.Any(x => x.FilePath == filePath))
                 {
                     AddFilePath(filePath);
                 }
@@ -208,7 +201,7 @@ namespace K3_TOOLS
                 }
             }
 
-            foreach (FileType file in files)
+            foreach (FileType file in files.Values)
             {
                 SortFile(file);
             }
@@ -221,6 +214,10 @@ namespace K3_TOOLS
                 FileDropPanel.Controls.Remove(fileLabel);
             }
             labels.Clear();
+            foreach (Button button in buttons)
+            {
+                FileDropPanel.Controls.Remove(button);
+            }
             buttons.Clear();
             displayedAmount = 0;
 
@@ -236,11 +233,9 @@ namespace K3_TOOLS
             string[] projectFilePaths = Directory.GetFiles(baseDirectory, "*.*", SearchOption.AllDirectories);
             foreach (var filePath in projectFilePaths)
             {
-                //if (files.Where(x => x.FilePath == filePath).FirstOrDefault() != null)
-				//{
-                    files.Remove(files.Where(x => x.FilePath == filePath).FirstOrDefault());
-				//}
-                projectFiles.Add(GetFileType(filePath));
+                FileType file = files.Values.Where(x => x.FilePath == filePath).FirstOrDefault();
+                projectFiles.Add(file);
+                files.Remove(files.FirstOrDefault(x => x.Value == file).Key);
             }
 		}
 
@@ -249,19 +244,36 @@ namespace K3_TOOLS
         /// </summary>
         private void AddFilePath(string filePath)
 		{
-            //TODO: ability to remove files with an x button for example
-
             if (!Directory.Exists(filePath))
             {
                 // Add a FileType to the files list
-                files.Add(GetFileType(filePath));
+                FileType file = GetFileType(filePath);
+                bool isFileAdded = false;
+				for (int i = 0; i < files.Count; i++)
+				{
+                    try
+                    {
+                        if (files[i] == null) { }
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        files.Add(i, file);
+                        isFileAdded = true;
+                        break;
+                    }
+				}
+
+                if (!isFileAdded)
+				{
+                    files.Add(files.Count, file);
+                }
 
                 // Create a label and display it in a list
                 var fileLabel = new Label
                 {
                     Text = filePath,
                     Height = listLabelHeight,
-                    Location = new Point(0, 0 + listLabelHeight * displayedAmount),
+                    Location = new Point(0, 0 + listLabelHeight * files.FirstOrDefault(x => x.Value == file).Key),
                     AutoSize = true
                 };
 
@@ -276,14 +288,14 @@ namespace K3_TOOLS
                     Image = Resources.delete_button_icon_8,
                     Height = listLabelHeight,
                     Width = listLabelHeight + 1, // HACK: It gets cropped slightly when I do 16x16... 17x16 seems to work fine
-                    Location = new Point(formWidth - 40, 0 + listLabelHeight * displayedAmount),
+                    Location = new Point(formWidth - 40, 0 + listLabelHeight * files.FirstOrDefault(x => x.Value == file).Key),
                     Anchor = AnchorStyles.Right | AnchorStyles.Top,
                     FlatStyle = FlatStyle.Flat,
                     Cursor = Cursors.Hand
                 };
 
-                // Add an on click event to the newly created button
-                removeFileButton.Click += new EventHandler(removeFileButton_Click);
+                // Add an on click event to the newly created removeFileButton with a delegate so you can send the file, label and button for removal once clicked
+                removeFileButton.Click += (sender, e) => RemoveFileButton_Click(sender, e, file, fileLabel, removeFileButton);
 
                 // Display the button (first so it displays over the label) and the label and add them to their respective lists
                 FileDropPanel.Controls.Add(removeFileButton);
@@ -303,9 +315,13 @@ namespace K3_TOOLS
             }
 		}
 
-        private void removeFileButton_Click(object sender, EventArgs e)
+		private void RemoveFileButton_Click(object sender, EventArgs e, FileType file, Label label, Button button)
 		{
-            Console.WriteLine("Test");
+            FileDropPanel.Controls.Remove(label);
+            FileDropPanel.Controls.Remove(button);
+            files.Remove(files.FirstOrDefault(x => x.Value == file).Key);
+            labels.Remove(label);
+            buttons.Remove(button);
 		}
 
         /// <summary>

@@ -10,6 +10,7 @@ namespace K3_TOOLS
 	{
 		public virtual string FilePath { get; protected set; }
 		public virtual string FolderName { get; protected set; }
+		public virtual int Slot { get; protected set; }
 		protected FileType(string filePath, string folderName)
 		{
 			FilePath = filePath;
