@@ -61,7 +61,7 @@ namespace K3_TOOLS.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Press \"Set Project Directory\"")]
         public string BaseDirectory {
             get {
                 return ((string)(this["BaseDirectory"]));

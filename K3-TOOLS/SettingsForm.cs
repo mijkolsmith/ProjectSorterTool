@@ -60,9 +60,13 @@ namespace K3_TOOLS
 			Console.WriteLine("Loading Settings...");
 
 			// Set window location
-			if (Settings.Default.SettingsWindowLocation != null)
+			if (Settings.Default.SettingsWindowLocation != new Point(0, 0))
 			{
 				Location = Settings.Default.SettingsWindowLocation;
+			}
+			else
+			{
+				CenterToParent();
 			}
 
 			// Set window size

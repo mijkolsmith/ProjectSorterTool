@@ -43,9 +43,10 @@ namespace K3_TOOLS
 			this.sortButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.sortButton.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.sortButton.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.sortButton.Location = new System.Drawing.Point(192, 603);
+			this.sortButton.Location = new System.Drawing.Point(144, 479);
+			this.sortButton.Margin = new System.Windows.Forms.Padding(2);
 			this.sortButton.Name = "sortButton";
-			this.sortButton.Size = new System.Drawing.Size(75, 25);
+			this.sortButton.Size = new System.Drawing.Size(56, 24);
 			this.sortButton.TabIndex = 1;
 			this.sortButton.Text = "Sort";
 			this.sortButton.UseVisualStyleBackColor = false;
@@ -55,9 +56,10 @@ namespace K3_TOOLS
 			// 
 			this.statusLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.statusLabel.AutoSize = true;
-			this.statusLabel.Location = new System.Drawing.Point(190, 629);
+			this.statusLabel.Location = new System.Drawing.Point(141, 505);
+			this.statusLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.statusLabel.Name = "statusLabel";
-			this.statusLabel.Size = new System.Drawing.Size(125, 17);
+			this.statusLabel.Size = new System.Drawing.Size(94, 13);
 			this.statusLabel.TabIndex = 2;
 			this.statusLabel.Text = "Status: Not sorting";
 			// 
@@ -66,9 +68,10 @@ namespace K3_TOOLS
 			this.makerLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.makerLabel.AutoSize = true;
 			this.makerLabel.ImageAlign = System.Drawing.ContentAlignment.BottomRight;
-			this.makerLabel.Location = new System.Drawing.Point(916, 647);
+			this.makerLabel.Location = new System.Drawing.Point(703, 505);
+			this.makerLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.makerLabel.Name = "makerLabel";
-			this.makerLabel.Size = new System.Drawing.Size(134, 17);
+			this.makerLabel.Size = new System.Drawing.Size(100, 13);
 			this.makerLabel.TabIndex = 5;
 			this.makerLabel.Text = "made by mijkolsmith";
 			this.makerLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -84,7 +87,7 @@ namespace K3_TOOLS
 			this.FileDropPanel.Location = new System.Drawing.Point(0, 0);
 			this.FileDropPanel.Margin = new System.Windows.Forms.Padding(0);
 			this.FileDropPanel.Name = "FileDropPanel";
-			this.FileDropPanel.Size = new System.Drawing.Size(1062, 540);
+			this.FileDropPanel.Size = new System.Drawing.Size(812, 439);
 			this.FileDropPanel.TabIndex = 6;
 			this.FileDropPanel.TabStop = true;
 			this.FileDropPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.FileDropPanel_DragDrop);
@@ -94,9 +97,10 @@ namespace K3_TOOLS
 			// 
 			this.setFolderButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
 			this.setFolderButton.BackColor = System.Drawing.Color.WhiteSmoke;
-			this.setFolderButton.Location = new System.Drawing.Point(22, 603);
+			this.setFolderButton.Location = new System.Drawing.Point(16, 479);
+			this.setFolderButton.Margin = new System.Windows.Forms.Padding(2);
 			this.setFolderButton.Name = "setFolderButton";
-			this.setFolderButton.Size = new System.Drawing.Size(148, 25);
+			this.setFolderButton.Size = new System.Drawing.Size(124, 24);
 			this.setFolderButton.TabIndex = 0;
 			this.setFolderButton.Text = "Set Project Directory";
 			this.setFolderButton.UseVisualStyleBackColor = false;
@@ -104,11 +108,11 @@ namespace K3_TOOLS
 			// 
 			// baseDirectoryLabel
 			// 
-			this.baseDirectoryLabel.Anchor = System.Windows.Forms.AnchorStyles.Top;
 			this.baseDirectoryLabel.AutoSize = true;
-			this.baseDirectoryLabel.Location = new System.Drawing.Point(435, 550);
+			this.baseDirectoryLabel.Location = new System.Drawing.Point(11, 448);
+			this.baseDirectoryLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.baseDirectoryLabel.Name = "baseDirectoryLabel";
-			this.baseDirectoryLabel.Size = new System.Drawing.Size(192, 17);
+			this.baseDirectoryLabel.Size = new System.Drawing.Size(144, 13);
 			this.baseDirectoryLabel.TabIndex = 3;
 			this.baseDirectoryLabel.Text = "Project Directory Placeholder";
 			// 
@@ -117,9 +121,10 @@ namespace K3_TOOLS
 			this.settingsButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
 			this.settingsButton.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.settingsButton.ForeColor = System.Drawing.SystemColors.ControlText;
-			this.settingsButton.Location = new System.Drawing.Point(975, 603);
+			this.settingsButton.Location = new System.Drawing.Point(747, 479);
+			this.settingsButton.Margin = new System.Windows.Forms.Padding(2);
 			this.settingsButton.Name = "settingsButton";
-			this.settingsButton.Size = new System.Drawing.Size(75, 25);
+			this.settingsButton.Size = new System.Drawing.Size(56, 24);
 			this.settingsButton.TabIndex = 7;
 			this.settingsButton.Text = "Settings";
 			this.settingsButton.UseVisualStyleBackColor = false;
@@ -128,10 +133,10 @@ namespace K3_TOOLS
 			// ProjectSorterForm
 			// 
 			this.AllowDrop = true;
-			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
-			this.ClientSize = new System.Drawing.Size(1062, 673);
+			this.ClientSize = new System.Drawing.Size(812, 536);
 			this.Controls.Add(this.settingsButton);
 			this.Controls.Add(this.baseDirectoryLabel);
 			this.Controls.Add(this.setFolderButton);
@@ -142,7 +147,9 @@ namespace K3_TOOLS
 			this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::K3_TOOLS.Properties.Settings.Default, "WindowLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
 			this.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.Location = global::K3_TOOLS.Properties.Settings.Default.WindowLocation;
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "ProjectSorterForm";
+			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "Project Sorter Tool";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ProjectSorterForm_FormClosing);
 			this.Load += new System.EventHandler(this.ProjectSorterForm_Load);

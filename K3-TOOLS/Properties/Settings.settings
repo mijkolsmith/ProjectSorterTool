@@ -12,7 +12,7 @@
       <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="BaseDirectory" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">Press "Set Project Directory"</Value>
     </Setting>
     <Setting Name="SortExistingFiles" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>

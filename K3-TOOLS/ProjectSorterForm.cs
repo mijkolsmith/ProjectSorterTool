@@ -21,6 +21,8 @@ namespace K3_TOOLS
         private int displayedAmount;
         private SettingsForm settingsForm;
 
+        private const int listLabelHeight = 16;
+
         public static bool sortExistingFiles;
 
         public ProjectSorterForm()
@@ -63,9 +65,13 @@ namespace K3_TOOLS
         {
             Console.WriteLine("Loading...");
             // Set window location
-            if (Settings.Default.WindowLocation != null)
+            if (Settings.Default.WindowLocation != new Point(0,0))
             {
                 Location = Settings.Default.WindowLocation;
+            }
+            else
+            {
+                CenterToScreen();
             }
 
             // Set window size
@@ -158,10 +164,10 @@ namespace K3_TOOLS
         private void FileDropPanel_DragDrop(object sender, DragEventArgs e)
         {
             //TODO: Fix so it works for folders (Get files inside of folder?)
-            //TODO: ctrl+c + ctrl+v should work as well
+            //TODO: implement ctrl+c + ctrl+v (Command pattern)
             foreach (string filePath in e.Data.GetData(DataFormats.FileDrop) as string[])
             {
-                if (files.Where(x => x.FilePath == filePath).FirstOrDefault() == null)
+                if (!files.Any(x => x.FilePath == filePath))
                 {
                     AddFilePath(filePath);
                 }
@@ -177,7 +183,7 @@ namespace K3_TOOLS
         private void SortButton_Click(object sender, EventArgs e)
         {
             // Update status display
-            if (baseDirectory == null)
+            if (!Directory.Exists(baseDirectory))
             {
                 statusLabel.Text = "Status: Project directory not set";
                 return;
@@ -221,10 +227,10 @@ namespace K3_TOOLS
             string[] projectFilePaths = Directory.GetFiles(baseDirectory, "*.*", SearchOption.AllDirectories);
             foreach (var filePath in projectFilePaths)
             {
-                if (files.Where(x => x.FilePath == filePath).FirstOrDefault() != null)
-				{
+                //if (files.Where(x => x.FilePath == filePath).FirstOrDefault() != null)
+				//{
                     files.Remove(files.Where(x => x.FilePath == filePath).FirstOrDefault());
-				}
+				//}
                 projectFiles.Add(GetFileType(filePath));
             }
 		}
@@ -234,23 +240,33 @@ namespace K3_TOOLS
         /// </summary>
         private void AddFilePath(string filePath)
 		{
-			//TODO: ability to remove files with an x button for example
+            //TODO: ability to remove files with an x button for example
 
-			// Add a FileType to the files list
-			files.Add(GetFileType(filePath));
+            if (!Directory.Exists(filePath))
+            {
+                // Add a FileType to the files list
+                files.Add(GetFileType(filePath));
 
-			// Create a label and display it in a list
-			Label fileLabel = new Label
-			{
-				Text = filePath,
-				Height = 16,
-				Location = new Point(0, 0 + Height * displayedAmount),
-				AutoSize = true
-			};
+                // Create a label and display it in a list
+                var fileLabel = new Label
+                {
+                    Text = filePath,
+                    Height = listLabelHeight,
+                    Location = new Point(0, 0 + listLabelHeight * displayedAmount),
+                    AutoSize = true
+                };
 
-			FileDropPanel.Controls.Add(fileLabel);
-			labels.Add(fileLabel);
-			displayedAmount++;
+                FileDropPanel.Controls.Add(fileLabel);
+                labels.Add(fileLabel);
+                displayedAmount++;
+            }
+            else
+            {
+                foreach(string newFilePath in Directory.GetFiles(filePath))
+				{// Recursive method so it easily works for any amount of folders
+                    AddFilePath(newFilePath);
+				}
+            }
 		}
 
         /// <summary>
@@ -275,7 +291,7 @@ namespace K3_TOOLS
             {
                 File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileName(file.FilePath)), true);
             }
-            catch (IOException e)
+            catch (IOException) // This exception will occur if the project file already existed at the same location, I can't delete before copying
 			{
                 File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileNameWithoutExtension(file.FilePath) + " (Copy)" + Path.GetExtension(file.FilePath)), true);
             }
@@ -291,10 +307,12 @@ namespace K3_TOOLS
         /// </summary>
         private void SetFolder_Click(object sender, EventArgs e)
 		{
-            CommonOpenFileDialog dialog = new CommonOpenFileDialog();
-            dialog.InitialDirectory = "C:\\";
-            dialog.IsFolderPicker = true;
-            CommonFileDialogResult result = dialog.ShowDialog();
+			var dialog = new CommonOpenFileDialog
+			{
+				InitialDirectory = "C:\\",
+				IsFolderPicker = true
+			};
+			CommonFileDialogResult result = dialog.ShowDialog();
 
             if (result == CommonFileDialogResult.Ok)
             {
@@ -306,7 +324,7 @@ namespace K3_TOOLS
 		private void SettingsButton_Click(object sender, EventArgs e)
 		{
             settingsForm = new SettingsForm();
-            settingsForm.Show();
+            settingsForm.Show(this);
 		}
 	}
 }
