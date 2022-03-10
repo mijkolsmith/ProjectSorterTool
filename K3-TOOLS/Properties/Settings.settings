@@ -47,5 +47,38 @@
     <Setting Name="CssScriptFolderName" Type="System.String" Scope="User">
       <Value Profile="(Default)">css</Value>
     </Setting>
+    <Setting Name="ImagePrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AudioPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="VideoPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ModelPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CSharpScriptPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="HtmlScriptPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CssScriptPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PrefabFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Prefabs</Value>
+    </Setting>
+    <Setting Name="PrefabPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MaterialFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Material</Value>
+    </Setting>
+    <Setting Name="MaterialPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

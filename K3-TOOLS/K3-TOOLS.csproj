@@ -58,21 +58,23 @@
     <Compile Include="CircularButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CssScript.cs" />
-    <Compile Include="Model.cs" />
-    <Compile Include="Script.cs" />
-    <Compile Include="HtmlScript.cs" />
-    <Compile Include="GenericFile.cs" />
+    <Compile Include="FileTypes\CssScript.cs" />
+    <Compile Include="FileTypes\Material.cs" />
+    <Compile Include="FileTypes\Prefab.cs" />
+    <Compile Include="FileTypes\Model.cs" />
+    <Compile Include="FileTypes\Script.cs" />
+    <Compile Include="FileTypes\HtmlScript.cs" />
+    <Compile Include="FileTypes\GenericFile.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Video.cs" />
-    <Compile Include="Audio.cs" />
-    <Compile Include="Image.cs" />
-    <Compile Include="FileType.cs" />
+    <Compile Include="FileTypes\Video.cs" />
+    <Compile Include="FileTypes\Audio.cs" />
+    <Compile Include="FileTypes\Image.cs" />
+    <Compile Include="FileTypes\FileType.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProjectSorterForm.cs">
       <SubType>Form</SubType>

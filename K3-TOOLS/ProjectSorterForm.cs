@@ -29,8 +29,8 @@ namespace K3_TOOLS
         }
 
         private const int listLabelHeight = 16;
-
         public static bool sortExistingFiles;
+        public static bool reloadSettings;
 
         public ProjectSorterForm()
         {
@@ -107,32 +107,42 @@ namespace K3_TOOLS
             string ext = Path.GetExtension(filePath).ToLower();
             if ((ext == ".jpg") || (ext == ".png") || (ext == ".bmp") || (ext == ".apng") || (ext == ".avif") || (ext == ".gif") || (ext == ".jpeg") || (ext == ".jfif") || (ext == ".pjpeg") || (ext == ".pjp") || (ext == ".webp"))
             {
-                return new Image(filePath, Settings.Default.ImageFolderName);
+                return new Image(filePath, Settings.Default.ImageFolderName, Settings.Default.ImagePrefix);
             }
             if ((ext == ".wav") || (ext == ".mp3") || (ext == ".aac") || (ext == ".aiff") || (ext == ".alac") || (ext == ".flac") || (ext == ".m4a") || (ext == ".ogg") || (ext == ".mogg") || (ext == ".oga") || (ext == ".wma"))
             {
-                return new Audio(filePath, Settings.Default.AudioFolderName);
+                return new Audio(filePath, Settings.Default.AudioFolderName, Settings.Default.AudioPrefix);
             }
             if ((ext == ".mp4") || (ext == ".wmv") || (ext == ".mov") || (ext == ".avi") || (ext == ".avchd") || (ext == ".flv") || (ext == ".f4v") || (ext == ".swf") || (ext == ".mkv") || (ext == ".webm") || (ext == ".html5") || (ext == ".ts") || (ext == ".ts") || (ext == ".amv") || (ext == ".m4v") || (ext == ".m4p") || (ext == ".mpg") || (ext == ".mpeg") || (ext == ".m2v") || (ext == ".mpv") || (ext == ".m4v") || (ext == ".3gp") || (ext == ".3g2"))
             {
-                return new Video(filePath, Settings.Default.VideoFolderName);
+                return new Video(filePath, Settings.Default.VideoFolderName, Settings.Default.VideoPrefix);
             }
             if ((ext == ".gtlf") || (ext == ".glb") || (ext == ".fbx") || (ext == ".obj") || (ext == ".usdz") || (ext == ".usd") || (ext == ".stl") || (ext == ".max") || (ext == ".x3d") || (ext == ".vrml") || (ext == ".3mf") || (ext == ".dae"))
             {
-                return new Model(filePath, Settings.Default.ModelFolderName);
+                return new Model(filePath, Settings.Default.ModelFolderName, Settings.Default.ModelPrefix);
             }
             if (ext == ".cs")
             {
-                return new CSharpScript(filePath, Settings.Default.CSharpScriptFolderName);
+                return new CSharpScript(filePath, Settings.Default.CSharpScriptFolderName, Settings.Default.CSharpScriptPrefix);
             }
             if ((ext == ".html") || (ext == ".htm") || (ext == ".xhtml") || (ext == ".jhtml"))
             {
-                return new HtmlScript(filePath, Settings.Default.HtmlScriptFolderName);
+                return new HtmlScript(filePath, Settings.Default.HtmlScriptFolderName, Settings.Default.HtmlScriptPrefix);
             }
             if (ext == ".css")
             {
-                return new CssScript(filePath, Settings.Default.CssScriptFolderName);
-            }/*
+                return new CssScript(filePath, Settings.Default.CssScriptFolderName, Settings.Default.CssScriptPrefix);
+            }
+            if (ext == ".prefab")
+			{
+                return new Prefab(filePath, Settings.Default.PrefabFolderName, Settings.Default.PrefabPrefix);
+            }
+            if (ext == ".mat")
+            {
+                return new Material(filePath, Settings.Default.MaterialFolderName, Settings.Default.MaterialPrefix);
+            }
+
+            /* I decided to leave these extensions out for my tool
             if (ext == ".js")
             {
                 return FileType.JavaScript;
@@ -158,13 +168,13 @@ namespace K3_TOOLS
                 return FileType.Python;
 			}*/
 
-            else return new GenericFile(filePath, "Other");
+            else return new GenericFile(filePath);
         }
         
         //https://www.c-sharpcorner.com/blogs/drag-and-drop-file-on-windows-forms1
         private void FileDropPanel_DragDrop(object sender, DragEventArgs e)
         {
-            //TODO: implement ctrl+c + ctrl+v (Command pattern)
+            //TODO: implement ctrl+z + ctrl+y (undo/redo Command pattern)
             foreach (string filePath in e.Data.GetData(DataFormats.FileDrop) as string[])
             {
                 if (!files.Values.Any(x => x.FilePath == filePath))
@@ -341,8 +351,10 @@ namespace K3_TOOLS
 				file.GetType() == typeof(GenericFile) ? baseDirectory :
 				Path.Combine(baseDirectory, file.FolderName);
 
-			// Create a new directory if it doesn't exist yet
-			if (!Directory.Exists(destinationPath))
+            //destinationPath += file.FilePrefix;
+
+            // Create a new directory if it doesn't exist yet
+            if (!Directory.Exists(destinationPath))
 			{
 				Directory.CreateDirectory(destinationPath);
 			}
@@ -350,13 +362,13 @@ namespace K3_TOOLS
             // Copy the file into the current folder
             try
             {
-                File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileName(file.FilePath)), true);
+                File.Copy(file.FilePath, Path.Combine(destinationPath, file.FilePrefix + Path.GetFileName(file.FilePath)), true);
             }
             catch (IOException) // This exception will occur if the project file already existed at the same location, I can't delete before copying
             {
                 try
                 {
-                    File.Copy(file.FilePath, Path.Combine(destinationPath, Path.GetFileNameWithoutExtension(file.FilePath) + " (Copy)" + Path.GetExtension(file.FilePath)), true);
+                    File.Copy(file.FilePath, Path.Combine(destinationPath, file.FilePrefix + Path.GetFileNameWithoutExtension(file.FilePath) + " (Copy)" + Path.GetExtension(file.FilePath)), true);
                 }
                 catch (IOException) // If this exception occurs twice, it's because a user moved/deleted files
                 {
@@ -392,7 +404,16 @@ namespace K3_TOOLS
 		private void SettingsButton_Click(object sender, EventArgs e)
 		{
             settingsForm = new SettingsForm();
+            settingsForm.FormClosed += new FormClosedEventHandler(ReloadSettings);
             settingsForm.Show(this);
+		}
+
+        private void ReloadSettings(object sender, EventArgs e)
+		{
+			for (int i = 0; i < files.Count; i++)
+			{
+                files[i] = GetFileType(files[i].FilePath);
+            }
 		}
 	}
 }

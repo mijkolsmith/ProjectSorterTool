@@ -15,6 +15,7 @@ namespace K3_TOOLS
 	{
 		public int fileTypeIndex;
 		Dictionary<string, string> folderNames = new Dictionary<string, string>();
+		Dictionary<string, string> filePrefixes = new Dictionary<string, string>();
 
 		public SettingsForm()
 		{
@@ -50,6 +51,21 @@ namespace K3_TOOLS
 			Settings.Default.CSharpScriptFolderName = folderNames["C# Scripts"];
 			Settings.Default.HtmlScriptFolderName = folderNames["Html"];
 			Settings.Default.CssScriptFolderName = folderNames["Css"];
+			Settings.Default.PrefabFolderName = folderNames["Prefabs"];
+			Settings.Default.MaterialFolderName = folderNames["Materials"];
+
+			// Save file prefixes
+			filePrefixes[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key] = filePrefixTextBox.Text;
+
+			Settings.Default.ImagePrefix = filePrefixes["Images"];
+			Settings.Default.AudioPrefix = filePrefixes["Audio"];
+			Settings.Default.VideoPrefix = filePrefixes["Video"];
+			Settings.Default.ModelPrefix = filePrefixes["3D Models"];
+			Settings.Default.CSharpScriptPrefix = filePrefixes["C# Scripts"];
+			Settings.Default.HtmlScriptPrefix = filePrefixes["Html"];
+			Settings.Default.CssScriptPrefix = filePrefixes["Css"];
+			Settings.Default.PrefabPrefix = filePrefixes["Prefabs"];
+			Settings.Default.MaterialPrefix = filePrefixes["Materials"];
 
 			// Save other settings
 			Settings.Default.SortExistingFiles = ProjectSorterForm.sortExistingFiles;
@@ -84,7 +100,21 @@ namespace K3_TOOLS
 			folderNames.Add("C# Scripts", Settings.Default.CSharpScriptFolderName);
 			folderNames.Add("Html", Settings.Default.HtmlScriptFolderName);
 			folderNames.Add("Css", Settings.Default.CssScriptFolderName);
-			
+			folderNames.Add("Prefabs", Settings.Default.PrefabFolderName);
+			folderNames.Add("Materials", Settings.Default.MaterialFolderName);
+
+			//Load file prefixes
+			filePrefixes.Add("Images", Settings.Default.ImagePrefix);
+			filePrefixes.Add("Audio", Settings.Default.AudioPrefix);
+			filePrefixes.Add("Video", Settings.Default.VideoPrefix);
+			filePrefixes.Add("3D Models", Settings.Default.ModelPrefix);
+			filePrefixes.Add("C# Scripts", Settings.Default.CSharpScriptPrefix);
+			filePrefixes.Add("Html", Settings.Default.HtmlScriptPrefix);
+			filePrefixes.Add("Css", Settings.Default.CssScriptPrefix);
+			filePrefixes.Add("Prefabs", Settings.Default.PrefabPrefix);
+			filePrefixes.Add("Materials", Settings.Default.MaterialPrefix);
+
+			fileTypeComboBox.Items.Add(folderNames.Keys);
 			BindDataSource();
 
 			// Load other settings
@@ -106,18 +136,19 @@ namespace K3_TOOLS
 		{	
 			fileTypeIndex = fileTypeComboBox.SelectedIndex;
 			folderNameTextBox.Text = folderNames[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key];
+			filePrefixTextBox.Text = filePrefixes[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key];
 		}
 
 		private void FileTypeComboBox_DropDown(object sender, EventArgs e)
 		{
 			folderNames[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key] = folderNameTextBox.Text;
+			filePrefixes[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key] = filePrefixTextBox.Text;
 		}
 
 		private void BindDataSource()
 		{
 			fileTypeComboBox.DataSource = new BindingSource(folderNames, null);
 			fileTypeComboBox.DisplayMember = "Key";
-			fileTypeComboBox.ValueMember = "Value";
 		}
 	}
 }

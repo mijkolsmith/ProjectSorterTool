@@ -202,5 +202,137 @@ namespace K3_TOOLS.Properties {
                 this["CssScriptFolderName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ImagePrefix {
+            get {
+                return ((string)(this["ImagePrefix"]));
+            }
+            set {
+                this["ImagePrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string AudioPrefix {
+            get {
+                return ((string)(this["AudioPrefix"]));
+            }
+            set {
+                this["AudioPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string VideoPrefix {
+            get {
+                return ((string)(this["VideoPrefix"]));
+            }
+            set {
+                this["VideoPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ModelPrefix {
+            get {
+                return ((string)(this["ModelPrefix"]));
+            }
+            set {
+                this["ModelPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CSharpScriptPrefix {
+            get {
+                return ((string)(this["CSharpScriptPrefix"]));
+            }
+            set {
+                this["CSharpScriptPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string HtmlScriptPrefix {
+            get {
+                return ((string)(this["HtmlScriptPrefix"]));
+            }
+            set {
+                this["HtmlScriptPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CssScriptPrefix {
+            get {
+                return ((string)(this["CssScriptPrefix"]));
+            }
+            set {
+                this["CssScriptPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Prefabs")]
+        public string PrefabFolderName {
+            get {
+                return ((string)(this["PrefabFolderName"]));
+            }
+            set {
+                this["PrefabFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PrefabPrefix {
+            get {
+                return ((string)(this["PrefabPrefix"]));
+            }
+            set {
+                this["PrefabPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Material")]
+        public string MaterialFolderName {
+            get {
+                return ((string)(this["MaterialFolderName"]));
+            }
+            set {
+                this["MaterialFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MaterialPrefix {
+            get {
+                return ((string)(this["MaterialPrefix"]));
+            }
+            set {
+                this["MaterialPrefix"] = value;
+            }
+        }
     }
 }

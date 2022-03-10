@@ -35,13 +35,15 @@ namespace K3_TOOLS
 			this.folderNameLabel = new System.Windows.Forms.Label();
 			this.folderNameTextBox = new System.Windows.Forms.TextBox();
 			this.saveButton = new System.Windows.Forms.Button();
+			this.filePrefixTextBox = new System.Windows.Forms.TextBox();
+			this.filePrefixLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// SortExistingFilesCheckBox
 			// 
 			this.SortExistingFilesCheckBox.AutoSize = true;
 			this.SortExistingFilesCheckBox.Location = new System.Drawing.Point(16, 18);
-			this.SortExistingFilesCheckBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.SortExistingFilesCheckBox.Margin = new System.Windows.Forms.Padding(2);
 			this.SortExistingFilesCheckBox.Name = "SortExistingFilesCheckBox";
 			this.SortExistingFilesCheckBox.Size = new System.Drawing.Size(139, 17);
 			this.SortExistingFilesCheckBox.TabIndex = 0;
@@ -54,16 +56,8 @@ namespace K3_TOOLS
 			this.fileTypeComboBox.BackColor = System.Drawing.SystemColors.HighlightText;
 			this.fileTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.fileTypeComboBox.FormattingEnabled = true;
-			this.fileTypeComboBox.Items.AddRange(new object[] {
-            "Images",
-            "Audio",
-            "Video",
-            "3D Models",
-            "C# Script",
-            "Html",
-            "Css"});
 			this.fileTypeComboBox.Location = new System.Drawing.Point(16, 58);
-			this.fileTypeComboBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.fileTypeComboBox.Margin = new System.Windows.Forms.Padding(2);
 			this.fileTypeComboBox.Name = "fileTypeComboBox";
 			this.fileTypeComboBox.Size = new System.Drawing.Size(92, 21);
 			this.fileTypeComboBox.TabIndex = 1;
@@ -93,7 +87,7 @@ namespace K3_TOOLS
 			// folderNameTextBox
 			// 
 			this.folderNameTextBox.Location = new System.Drawing.Point(112, 59);
-			this.folderNameTextBox.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.folderNameTextBox.Margin = new System.Windows.Forms.Padding(2);
 			this.folderNameTextBox.Name = "folderNameTextBox";
 			this.folderNameTextBox.Size = new System.Drawing.Size(76, 20);
 			this.folderNameTextBox.TabIndex = 4;
@@ -104,7 +98,7 @@ namespace K3_TOOLS
 			this.saveButton.BackColor = System.Drawing.Color.WhiteSmoke;
 			this.saveButton.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.saveButton.Location = new System.Drawing.Point(510, 336);
-			this.saveButton.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.saveButton.Margin = new System.Windows.Forms.Padding(2);
 			this.saveButton.Name = "saveButton";
 			this.saveButton.Size = new System.Drawing.Size(82, 24);
 			this.saveButton.TabIndex = 8;
@@ -112,19 +106,39 @@ namespace K3_TOOLS
 			this.saveButton.UseVisualStyleBackColor = false;
 			this.saveButton.Click += new System.EventHandler(this.SaveButton_Click);
 			// 
+			// filePrefixTextBox
+			// 
+			this.filePrefixTextBox.Location = new System.Drawing.Point(192, 59);
+			this.filePrefixTextBox.Margin = new System.Windows.Forms.Padding(2);
+			this.filePrefixTextBox.Name = "filePrefixTextBox";
+			this.filePrefixTextBox.Size = new System.Drawing.Size(76, 20);
+			this.filePrefixTextBox.TabIndex = 10;
+			// 
+			// filePrefixLabel
+			// 
+			this.filePrefixLabel.AutoSize = true;
+			this.filePrefixLabel.Location = new System.Drawing.Point(190, 40);
+			this.filePrefixLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+			this.filePrefixLabel.Name = "filePrefixLabel";
+			this.filePrefixLabel.Size = new System.Drawing.Size(51, 13);
+			this.filePrefixLabel.TabIndex = 9;
+			this.filePrefixLabel.Text = "File prefix";
+			// 
 			// SettingsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
 			this.ClientSize = new System.Drawing.Size(600, 366);
+			this.Controls.Add(this.filePrefixTextBox);
+			this.Controls.Add(this.filePrefixLabel);
 			this.Controls.Add(this.saveButton);
 			this.Controls.Add(this.folderNameTextBox);
 			this.Controls.Add(this.folderNameLabel);
 			this.Controls.Add(this.fileTypeLabel);
 			this.Controls.Add(this.fileTypeComboBox);
 			this.Controls.Add(this.SortExistingFilesCheckBox);
-			this.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.Name = "SettingsForm";
 			this.Text = "Settings";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SettingsForm_FormClosing);
@@ -142,5 +156,7 @@ namespace K3_TOOLS
 		private System.Windows.Forms.Label folderNameLabel;
 		private System.Windows.Forms.TextBox folderNameTextBox;
 		private System.Windows.Forms.Button saveButton;
+		private System.Windows.Forms.TextBox filePrefixTextBox;
+		private System.Windows.Forms.Label filePrefixLabel;
 	}
 }
