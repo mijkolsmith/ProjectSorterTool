@@ -19,7 +19,6 @@ namespace K3_TOOLS
         private List<FileType> projectFiles = new List<FileType>();
         private List<Label> labels = new List<Label>();
         private List<Button> buttons = new List<Button>();
-        private int displayedAmount;
         private SettingsForm settingsForm;
 
         private int formWidth;
@@ -203,6 +202,7 @@ namespace K3_TOOLS
 
             foreach (FileType file in files.Values)
             {
+                Console.Write(Path.GetFileName(file.FilePath));
                 SortFile(file);
             }
 
@@ -219,7 +219,6 @@ namespace K3_TOOLS
                 FileDropPanel.Controls.Remove(button);
             }
             buttons.Clear();
-            displayedAmount = 0;
 
             // Update Status Display
             statusLabel.Text = "Status: Done";
@@ -233,9 +232,19 @@ namespace K3_TOOLS
             string[] projectFilePaths = Directory.GetFiles(baseDirectory, "*.*", SearchOption.AllDirectories);
             foreach (var filePath in projectFilePaths)
             {
-                FileType file = files.Values.Where(x => x.FilePath == filePath).FirstOrDefault();
+                FileType file;
+
+                if (files.Values.Where(x => x.FilePath == filePath).FirstOrDefault() == null)
+                {
+                    file = GetFileType(filePath);
+                }
+                else
+                {
+                    file = files.Values.Where(x => x.FilePath == filePath).FirstOrDefault();
+                    files.Remove(files.FirstOrDefault(x => x.Value == file).Key);
+                }
+
                 projectFiles.Add(file);
-                files.Remove(files.FirstOrDefault(x => x.Value == file).Key);
             }
 		}
 
@@ -302,9 +311,6 @@ namespace K3_TOOLS
                 FileDropPanel.Controls.Add(fileLabel);
                 labels.Add(fileLabel);
                 buttons.Add(removeFileButton);
-
-                // Increase the displayed amount count
-                displayedAmount++;
             }
             else
             {
