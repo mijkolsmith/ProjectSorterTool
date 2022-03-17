@@ -1,100 +1,116 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="K3_TOOLS.Audio" Collapsed="true">
-    <Position X="5" Y="1.75" Width="1.5" />
+  <Class Name="K3_TOOLS.AddFileCommand" BaseTypeListCollapsed="true">
+    <Position X="14" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAABAAAAABBQAAAAAAAABAAAAAAAABAAAAAAAAAA=</HashCode>
+      <FileName>AddFileCommand.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.689" />
+  </Class>
+  <Class Name="K3_TOOLS.Audio">
+    <Position X="5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Audio.cs</FileName>
+      <FileName>FileTypes\Audio.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.CssScript" Collapsed="true">
-    <Position X="9.5" Y="1.75" Width="1.5" />
+  <Class Name="K3_TOOLS.CssScript">
+    <Position X="11.75" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>CssScript.cs</FileName>
+      <FileName>FileTypes\CssScript.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.FileType" Collapsed="true">
-    <Position X="12.75" Y="0.5" Width="1.5" />
+  <Class Name="K3_TOOLS.FileType">
+    <Position X="10.5" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAQAAAAEAAAABAAAAAAAA=</HashCode>
-      <FileName>FileType.cs</FileName>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAACABAAAAAAAA=</HashCode>
+      <FileName>FileTypes\FileType.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.GenericFile" Collapsed="true">
-    <Position X="18.5" Y="1.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>GenericFile.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="K3_TOOLS.HtmlScript" Collapsed="true">
-    <Position X="7.25" Y="1.75" Width="1.5" />
+  <Class Name="K3_TOOLS.GenericFile">
+    <Position X="18.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>HtmlScript.cs</FileName>
+      <FileName>FileTypes\GenericFile.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.Image" Collapsed="true">
-    <Position X="11.75" Y="1.75" Width="1.5" />
+  <Class Name="K3_TOOLS.HtmlScript">
+    <Position X="0.5" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Image.cs</FileName>
+      <FileName>FileTypes\HtmlScript.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.Model" Collapsed="true">
-    <Position X="16.25" Y="1.75" Width="1.5" />
+  <Class Name="K3_TOOLS.Image">
+    <Position X="7.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Model.cs</FileName>
+      <FileName>FileTypes\Image.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.Program" Collapsed="true">
-    <Position X="15.25" Y="3.5" Width="1.5" />
+  <Class Name="K3_TOOLS.Material">
+    <Position X="14" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
-      <FileName>Program.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileTypes\Material.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.ProjectSorterForm" Collapsed="true">
-    <Position X="17" Y="3.5" Width="1.5" />
+  <Class Name="K3_TOOLS.Model">
+    <Position X="16.25" Y="3.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>CAAAABAABCAQABQQAICCAAACAIQAAIBBAoAEkCBQAIQ=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileTypes\Model.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="K3_TOOLS.Prefab">
+    <Position X="20.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileTypes\Prefab.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="K3_TOOLS.CSharpScript">
+    <Position X="2.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileTypes\Script.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="K3_TOOLS.Video">
+    <Position X="9.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileTypes\Video.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="K3_TOOLS.ProjectSorterForm">
+    <Position X="8.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAABIABCIRRBAQIMCCAAADAIAAAYhBAsAEkDBQAIQ=</HashCode>
       <FileName>ProjectSorterForm.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.CSharpScript" Collapsed="true">
-    <Position X="14" Y="1.75" Width="1.5" />
+  <Class Name="K3_TOOLS.SettingsForm">
+    <Position X="10.5" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Script.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="K3_TOOLS.SettingsForm" Collapsed="true">
-    <Position X="17" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAQAAgAACAAAAAIAhGCAAAOAAAIgIAAAAEAQAAAAAA=</HashCode>
+      <HashCode>BAAQAAgAwCEAAAAIABGAAAAOAAAIgIAAAAFAAACAAAA=</HashCode>
       <FileName>SettingsForm.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.Video" Collapsed="true">
-    <Position X="20.75" Y="1.75" Width="1.5" />
+  <Class Name="K3_TOOLS.Properties.Settings">
+    <Position X="12.25" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Video.cs</FileName>
+      <HashCode>AACAgAEgGEADAAAACAAAYDQAQgABCAAowAAABAGIACA=</HashCode>
     </TypeIdentifier>
   </Class>
-  <Class Name="K3_TOOLS.Properties.Resources" Collapsed="true">
-    <Position X="18.75" Y="3.5" Width="1.5" />
+  <Interface Name="K3_TOOLS.ICommand">
+    <Position X="14" Y="5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+      <HashCode>AAAAAAAAAAAABAQAAAAAAAABAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ICommand.cs</FileName>
     </TypeIdentifier>
-  </Class>
-  <Class Name="K3_TOOLS.Properties.Settings" Collapsed="true">
-    <Position X="15.25" Y="4.25" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AACAgAAgAEACAAAACAAAYDQAQgABAAAIAAAAAACAAAA=</HashCode>
-    </TypeIdentifier>
-  </Class>
+  </Interface>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>
