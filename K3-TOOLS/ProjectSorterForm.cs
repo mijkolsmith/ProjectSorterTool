@@ -13,12 +13,12 @@ namespace K3_TOOLS
 	public partial class ProjectSorterForm : Form
 	{
         private string baseDirectory;
-        private Dictionary<int, FileType> files = new Dictionary<int, FileType>();
+        public Dictionary<int, FileType> files = new Dictionary<int, FileType>();
 
         //private List<FileType> files = new List<FileType>();
         private List<FileType> projectFiles = new List<FileType>();
-        private List<Label> labels = new List<Label>();
-        private List<Button> buttons = new List<Button>();
+        public List<Label> labels = new List<Label>();
+        public List<Button> buttons = new List<Button>();
         private SettingsForm settingsForm;
 
         private int formWidth;
@@ -31,6 +31,9 @@ namespace K3_TOOLS
         private const int listLabelHeight = 16;
         public static bool sortExistingFiles;
         public static bool reloadSettings;
+
+        private List<ICommand> commands = new List<ICommand>();
+        private int commandIndex = -1;
 
         public ProjectSorterForm()
         {
@@ -168,7 +171,7 @@ namespace K3_TOOLS
                 return FileType.Python;
 			}*/
 
-            else return new GenericFile(filePath);
+            else return new GenericFile(filePath, Settings.Default.GenericFolderName, Settings.Default.GenericPrefix);
         }
         
         //https://www.c-sharpcorner.com/blogs/drag-and-drop-file-on-windows-forms1
@@ -221,14 +224,15 @@ namespace K3_TOOLS
             projectFiles.Clear();
 			foreach (Label fileLabel in labels)
 			{
-                FileDropPanel.Controls.Remove(fileLabel);
+                fileDropPanel.Controls.Remove(fileLabel);
             }
             labels.Clear();
             foreach (Button button in buttons)
             {
-                FileDropPanel.Controls.Remove(button);
+                fileDropPanel.Controls.Remove(button);
             }
             buttons.Clear();
+            commands.Clear();
 
             // Update Status Display
             statusLabel.Text = "Status: Done";
@@ -265,34 +269,37 @@ namespace K3_TOOLS
 		{
             if (!Directory.Exists(filePath))
             {
-                // Add a FileType to the files list
-                FileType file = GetFileType(filePath);
-                bool isFileAdded = false;
-				for (int i = 0; i < files.Count; i++)
-				{
+                // Find the key
+                bool isKeySet = false;
+                int key = 0;
+                for (int i = 0; i < files.Count; i++)
+                {
                     try
                     {
                         if (files[i] == null) { }
                     }
                     catch (KeyNotFoundException)
                     {
-                        files.Add(i, file);
-                        isFileAdded = true;
+                        key = i;
+                        isKeySet = true;
                         break;
                     }
-				}
-
-                if (!isFileAdded)
-				{
-                    files.Add(files.Count, file);
                 }
+
+                if (!isKeySet)
+                {
+                    key = files.Count;
+                }
+
+                // Add a FileType to the files list
+                FileType file = GetFileType(filePath);
 
                 // Create a label and display it in a list
                 var fileLabel = new Label
                 {
                     Text = filePath,
                     Height = listLabelHeight,
-                    Location = new Point(0, 0 + listLabelHeight * files.FirstOrDefault(x => x.Value == file).Key),
+                    Location = new Point(0, listLabelHeight * key),
                     AutoSize = true
                 };
 
@@ -307,8 +314,7 @@ namespace K3_TOOLS
                     Image = Resources.delete_button_icon_8,
                     Height = listLabelHeight,
                     Width = listLabelHeight + 1, // HACK: It gets cropped slightly when I do 16x16... 17x16 seems to work fine
-                    Location = new Point(formWidth - 40, 0 + listLabelHeight * files.FirstOrDefault(x => x.Value == file).Key),
-                    Anchor = AnchorStyles.Right | AnchorStyles.Top,
+                    Location = new Point(formWidth - 40, listLabelHeight * key),
                     FlatStyle = FlatStyle.Flat,
                     Cursor = Cursors.Hand
                 };
@@ -316,26 +322,34 @@ namespace K3_TOOLS
                 // Add an on click event to the newly created removeFileButton with a delegate so you can send the file, label and button for removal once clicked
                 removeFileButton.Click += (sender, e) => RemoveFileButton_Click(sender, e, file, fileLabel, removeFileButton);
 
-                // Display the button (first so it displays over the label) and the label and add them to their respective lists
-                FileDropPanel.Controls.Add(removeFileButton);
-                FileDropPanel.Controls.Add(fileLabel);
-                labels.Add(fileLabel);
-                buttons.Add(removeFileButton);
+                var command = new AddFileCommand(this, file, removeFileButton, fileLabel);
+                commands.Add(command);
+                command.Execute();
+                commandIndex++;
+
+                // Small bugfix for the visual side
+                removeFileButton.Anchor = Anchor = AnchorStyles.Right | AnchorStyles.Top;
             }
             else
             {
                 foreach(string newFilePath in Directory.GetFiles(filePath))
 				{// Recursive method so it easily works for any amount of folders
-                    AddFilePath(newFilePath);
-				}
+                    if (!files.Values.Any(x => x.FilePath == newFilePath))
+                    {
+                        AddFilePath(newFilePath);
+                    }
+                }
             }
 		}
 
 		private void RemoveFileButton_Click(object sender, EventArgs e, FileType file, Label label, Button button)
 		{
-            FileDropPanel.Controls.Remove(label);
-            FileDropPanel.Controls.Remove(button);
-            files.Remove(files.FirstOrDefault(x => x.Value == file).Key);
+            fileDropPanel.Controls.Remove(label);
+            fileDropPanel.Controls.Remove(button);
+            int key = files.FirstOrDefault(x => x.Value == file).Key;
+            files.Remove(key);
+            commandIndex--;
+            commands.Remove(commands[key]);
             labels.Remove(label);
             buttons.Remove(button);
 		}
@@ -350,10 +364,14 @@ namespace K3_TOOLS
 			string destinationPath =
 				file.GetType() == typeof(GenericFile) ? baseDirectory :
 				Path.Combine(baseDirectory, file.FolderName);
+            
+            string fileName = Path.GetFileNameWithoutExtension(file.FilePath);
+            if (!Path.GetFileNameWithoutExtension(file.FilePath).Contains(file.FilePrefix))
+			{
+                fileName = file.FilePrefix + Path.GetFileNameWithoutExtension(file.FilePath);
+            }
 
-            //destinationPath += file.FilePrefix;
-
-            // Create a new directory if it doesn't exist yet
+                // Create a new directory if it doesn't exist yet
             if (!Directory.Exists(destinationPath))
 			{
 				Directory.CreateDirectory(destinationPath);
@@ -362,13 +380,13 @@ namespace K3_TOOLS
             // Copy the file into the current folder
             try
             {
-                File.Copy(file.FilePath, Path.Combine(destinationPath, file.FilePrefix + Path.GetFileName(file.FilePath)), true);
+                File.Copy(file.FilePath, Path.Combine(destinationPath, fileName + Path.GetExtension(file.FilePath)), true);
             }
             catch (IOException) // This exception will occur if the project file already existed at the same location, I can't delete before copying
             {
                 try
                 {
-                    File.Copy(file.FilePath, Path.Combine(destinationPath, file.FilePrefix + Path.GetFileNameWithoutExtension(file.FilePath) + " (Copy)" + Path.GetExtension(file.FilePath)), true);
+                    File.Copy(file.FilePath, Path.Combine(destinationPath, fileName + " (Copy)" + Path.GetExtension(file.FilePath)), true);
                 }
                 catch (IOException) // If this exception occurs twice, it's because a user moved/deleted files
                 {
@@ -410,10 +428,44 @@ namespace K3_TOOLS
 
         private void ReloadSettings(object sender, EventArgs e)
 		{
-			for (int i = 0; i < files.Count; i++)
-			{
-                files[i] = GetFileType(files[i].FilePath);
+            Dictionary<int, FileType> tempFiles = new Dictionary<int, FileType>();
+			foreach(int key in files.Keys)
+            {
+                tempFiles.Add(key, GetFileType(files[key].FilePath));
             }
+            files = tempFiles;
 		}
+
+        private void Undo()
+		{
+            if (commandIndex > -1)
+            {
+                commands[commandIndex].Undo();
+                commandIndex--;
+            }
+        }
+
+        private void Redo()
+		{
+            if (commandIndex < commands.Count - 1)
+            {
+                commandIndex++;
+                commands[commandIndex].Execute();
+            }
+        }
+
+		private void ProjectSorterForm_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Control & e.KeyCode == Keys.Z)
+			{
+                Undo();
+                Console.WriteLine("klote z");
+			}
+
+			if (e.Control & e.KeyCode == Keys.Y)
+            {
+                Redo();
+            }
+        }
 	}
 }

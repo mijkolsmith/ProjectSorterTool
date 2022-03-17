@@ -334,5 +334,29 @@ namespace K3_TOOLS.Properties {
                 this["MaterialPrefix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Unidentified")]
+        public string GenericFolderName {
+            get {
+                return ((string)(this["GenericFolderName"]));
+            }
+            set {
+                this["GenericFolderName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string GenericPrefix {
+            get {
+                return ((string)(this["GenericPrefix"]));
+            }
+            set {
+                this["GenericPrefix"] = value;
+            }
+        }
     }
 }

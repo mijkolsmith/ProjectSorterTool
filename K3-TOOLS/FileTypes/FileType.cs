@@ -17,9 +17,5 @@ namespace K3_TOOLS
 			FolderName = folderName;
 			FilePrefix = filePrefix;
 		}
-		protected FileType(string filePath)
-		{
-			FilePath = filePath;
-		}
 	}
 }

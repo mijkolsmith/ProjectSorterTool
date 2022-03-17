@@ -51,6 +51,7 @@ namespace K3_TOOLS
 			Settings.Default.CssScriptFolderName = folderNames["Css"];
 			Settings.Default.PrefabFolderName = folderNames["Prefabs"];
 			Settings.Default.MaterialFolderName = folderNames["Materials"];
+			Settings.Default.GenericFolderName = folderNames["Other Files"];
 
 			// Save file prefixes
 			filePrefixes[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key] = filePrefixTextBox.Text;
@@ -64,6 +65,7 @@ namespace K3_TOOLS
 			Settings.Default.CssScriptPrefix = filePrefixes["Css"];
 			Settings.Default.PrefabPrefix = filePrefixes["Prefabs"];
 			Settings.Default.MaterialPrefix = filePrefixes["Materials"];
+			Settings.Default.GenericPrefix = filePrefixes["Other Files"];
 
 			// Save other settings
 			Settings.Default.SortExistingFiles = ProjectSorterForm.sortExistingFiles;
@@ -100,6 +102,7 @@ namespace K3_TOOLS
 			folderNames.Add("Css", Settings.Default.CssScriptFolderName);
 			folderNames.Add("Prefabs", Settings.Default.PrefabFolderName);
 			folderNames.Add("Materials", Settings.Default.MaterialFolderName);
+			folderNames.Add("Other Files", Settings.Default.GenericFolderName);
 
 			//Load file prefixes
 			filePrefixes.Add("Images", Settings.Default.ImagePrefix);
@@ -111,6 +114,7 @@ namespace K3_TOOLS
 			filePrefixes.Add("Css", Settings.Default.CssScriptPrefix);
 			filePrefixes.Add("Prefabs", Settings.Default.PrefabPrefix);
 			filePrefixes.Add("Materials", Settings.Default.MaterialPrefix);
+			filePrefixes.Add("Other Files", Settings.Default.GenericPrefix);
 
 			fileTypeComboBox.Items.Add(folderNames.Keys);
 			BindDataSource();

@@ -80,5 +80,11 @@
     <Setting Name="MaterialPrefix" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="GenericFolderName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Unidentified</Value>
+    </Setting>
+    <Setting Name="GenericPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>
