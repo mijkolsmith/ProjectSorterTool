@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +56,7 @@ namespace K3_TOOLS
 
 		public void Undo()
 		{
+			Console.WriteLine(Path.GetFileName(file.FilePath));
 			form.fileDropPanel.Controls.Remove(label);
 			form.fileDropPanel.Controls.Remove(button);
 			form.files.Remove(form.files.FirstOrDefault(x => x.Value == file).Key);

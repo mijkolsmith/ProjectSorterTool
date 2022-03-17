@@ -14,11 +14,11 @@ namespace K3_TOOLS
 	{
         private string baseDirectory;
         public Dictionary<int, FileType> files = new Dictionary<int, FileType>();
-
-        //private List<FileType> files = new List<FileType>();
+        private List<ICommand> commands = new List<ICommand>();
         private List<FileType> projectFiles = new List<FileType>();
         public List<Label> labels = new List<Label>();
         public List<Button> buttons = new List<Button>();
+
         private SettingsForm settingsForm;
 
         private int formWidth;
@@ -32,7 +32,6 @@ namespace K3_TOOLS
         public static bool sortExistingFiles;
         public static bool reloadSettings;
 
-        private List<ICommand> commands = new List<ICommand>();
         private int commandIndex = -1;
 
         public ProjectSorterForm()
@@ -322,6 +321,7 @@ namespace K3_TOOLS
                 // Add an on click event to the newly created removeFileButton with a delegate so you can send the file, label and button for removal once clicked
                 removeFileButton.Click += (sender, e) => RemoveFileButton_Click(sender, e, file, fileLabel, removeFileButton);
 
+                RemoveHistory();
                 var command = new AddFileCommand(this, file, removeFileButton, fileLabel);
                 commands.Add(command);
                 command.Execute();
@@ -347,9 +347,9 @@ namespace K3_TOOLS
             fileDropPanel.Controls.Remove(label);
             fileDropPanel.Controls.Remove(button);
             int key = files.FirstOrDefault(x => x.Value == file).Key;
+            Console.WriteLine(key);
             files.Remove(key);
-            commandIndex--;
-            commands.Remove(commands[key]);
+            commands.RemoveAt(key);
             labels.Remove(label);
             buttons.Remove(button);
 		}
@@ -440,6 +440,7 @@ namespace K3_TOOLS
 		{
             if (commandIndex > -1)
             {
+                Console.WriteLine(commandIndex);
                 commands[commandIndex].Undo();
                 commandIndex--;
             }
@@ -450,16 +451,23 @@ namespace K3_TOOLS
             if (commandIndex < commands.Count - 1)
             {
                 commandIndex++;
-                commands[commandIndex].Execute();
+                commands[commandIndex].Redo();
             }
         }
 
-		private void ProjectSorterForm_KeyDown(object sender, KeyEventArgs e)
+        private void RemoveHistory()
+        {
+            for (int i = commands.Count - 1; i > commandIndex; i--)
+            {
+                commands.Remove(commands[i]);
+            }
+        }
+
+        private void ProjectSorterForm_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Control & e.KeyCode == Keys.Z)
 			{
                 Undo();
-                Console.WriteLine("klote z");
 			}
 
 			if (e.Control & e.KeyCode == Keys.Y)
