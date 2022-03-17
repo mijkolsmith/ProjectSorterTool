@@ -4,8 +4,8 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using System.IO;
 using Microsoft.WindowsAPICodePack.Dialogs;
+using System.IO;
 using K3_TOOLS.Properties;
 
 namespace K3_TOOLS
