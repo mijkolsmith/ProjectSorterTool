@@ -214,7 +214,6 @@ namespace K3_TOOLS
 
             foreach (FileType file in files.Values)
             {
-                Console.Write(Path.GetFileName(file.FilePath));
                 SortFile(file);
             }
 
@@ -232,6 +231,7 @@ namespace K3_TOOLS
             }
             buttons.Clear();
             commands.Clear();
+            commandIndex = -1;
 
             // Update Status Display
             statusLabel.Text = "Status: Done";
@@ -347,7 +347,6 @@ namespace K3_TOOLS
             fileDropPanel.Controls.Remove(label);
             fileDropPanel.Controls.Remove(button);
             int key = files.FirstOrDefault(x => x.Value == file).Key;
-            Console.WriteLine(key);
             files.Remove(key);
             commands.RemoveAt(key);
             labels.Remove(label);
@@ -441,6 +440,7 @@ namespace K3_TOOLS
             if (commandIndex > -1)
             {
                 Console.WriteLine(commandIndex);
+                Console.WriteLine(commands.Count);
                 commands[commandIndex].Undo();
                 commandIndex--;
             }
