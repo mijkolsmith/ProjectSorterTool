@@ -14,6 +14,7 @@ namespace K3_TOOLS
 		public int fileTypeIndex;
 		Dictionary<string, string> folderNames = new Dictionary<string, string>();
 		Dictionary<string, string> filePrefixes = new Dictionary<string, string>();
+		Dictionary<string, string> customStrings = new Dictionary<string, string>();
 
 		public SettingsForm()
 		{
@@ -151,6 +152,32 @@ namespace K3_TOOLS
 		{
 			fileTypeComboBox.DataSource = new BindingSource(folderNames, null);
 			fileTypeComboBox.DisplayMember = "Key";
+		}
+
+		private void AddButton_Click(object sender, EventArgs e)
+		{
+			if (!customStrings.ContainsKey(customStringComboBox.Text))
+			{
+				customStrings.Add(customStringComboBox.Text, folderName2TextBox.Text);
+			}
+			else
+			{
+				customStrings[customStringComboBox.Text] = folderName2TextBox.Text;
+			}
+			customStringComboBox.Items.Add(customStringComboBox.Text);
+		}
+
+		private void CustomStringComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			folderName2TextBox.Text = customStrings[customStringComboBox.Text];
+		}
+
+		private void RemoveButton_Click(object sender, EventArgs e)
+		{
+			folderName2TextBox.Text = "";
+			customStringComboBox.Items.Remove(customStringComboBox.Text);
+			customStringComboBox.Text = "";
+			customStrings.Remove(customStringComboBox.Text);
 		}
 	}
 }

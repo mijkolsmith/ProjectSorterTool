@@ -439,8 +439,6 @@ namespace K3_TOOLS
 		{
             if (commandIndex > -1)
             {
-                Console.WriteLine(commandIndex);
-                Console.WriteLine(commands.Count);
                 commands[commandIndex].Undo();
                 commandIndex--;
             }
