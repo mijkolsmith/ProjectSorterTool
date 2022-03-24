@@ -358,5 +358,29 @@ namespace K3_TOOLS.Properties {
                 this["GenericPrefix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CustomKeyList {
+            get {
+                return ((string)(this["CustomKeyList"]));
+            }
+            set {
+                this["CustomKeyList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CustomValueList {
+            get {
+                return ((string)(this["CustomValueList"]));
+            }
+            set {
+                this["CustomValueList"] = value;
+            }
+        }
     }
 }

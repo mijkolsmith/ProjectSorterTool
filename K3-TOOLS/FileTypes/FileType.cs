@@ -17,5 +17,10 @@ namespace K3_TOOLS
 			FolderName = folderName;
 			FilePrefix = filePrefix;
 		}
+
+		public void SetFolderName(string folderName)
+		{
+			FolderName = folderName;
+		}
 	}
 }

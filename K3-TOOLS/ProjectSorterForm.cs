@@ -18,6 +18,7 @@ namespace K3_TOOLS
         private List<FileType> projectFiles = new List<FileType>();
         public List<Label> labels = new List<Label>();
         public List<Button> buttons = new List<Button>();
+        private Dictionary<string, string> customStrings = new Dictionary<string, string>();
 
         private SettingsForm settingsForm;
 
@@ -99,6 +100,14 @@ namespace K3_TOOLS
 
             // Load other settings
             sortExistingFiles = Settings.Default.SortExistingFiles;
+
+            var keyList = Settings.Default.CustomKeyList.Split(',');
+            var valueList = Settings.Default.CustomKeyList.Split(',');
+
+            for (int i = 0; i < keyList.Count(); i++)
+            {
+                customStrings.Add(keyList[i], valueList[i]);
+            }
         }
 
         /// <summary>
@@ -194,7 +203,7 @@ namespace K3_TOOLS
 
         private void SortButton_Click(object sender, EventArgs e)
         {
-            // Update status display
+            // Update status display, check if base directory is set
             if (!Directory.Exists(baseDirectory))
             {
                 statusLabel.Text = "Status: Project directory not set";
@@ -202,6 +211,7 @@ namespace K3_TOOLS
             }
             statusLabel.Text = "Status: Sorting...";
 
+            // Sort the existing project files if the option is enabled
             if (sortExistingFiles)
             {
                 GetExistingProjectFiles();
@@ -211,9 +221,24 @@ namespace K3_TOOLS
                     File.Delete(projectFile.FilePath);
                 }
             }
-
+            
             foreach (FileType file in files.Values)
             {
+                // Check if the file contains a custom name to sort it into a custom folder
+                foreach (var kvp in customStrings)
+				{
+                    if (kvp.Key == "")
+					{
+                        continue;
+					}
+                    if (Path.GetFileName(file.FilePath).Contains(kvp.Key))
+					{
+                        Console.WriteLine(kvp.Key + kvp.Value);
+                        file.SetFolderName(kvp.Value);
+					}
+				}
+
+                // Sort the file
                 SortFile(file);
             }
 

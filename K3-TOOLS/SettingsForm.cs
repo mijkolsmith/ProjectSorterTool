@@ -11,10 +11,9 @@ namespace K3_TOOLS
 {
 	public partial class SettingsForm : Form
 	{
-		public int fileTypeIndex;
-		Dictionary<string, string> folderNames = new Dictionary<string, string>();
-		Dictionary<string, string> filePrefixes = new Dictionary<string, string>();
-		Dictionary<string, string> customStrings = new Dictionary<string, string>();
+		private Dictionary<string, string> folderNames = new Dictionary<string, string>();
+		private Dictionary<string, string> filePrefixes = new Dictionary<string, string>();
+		private Dictionary<string, string> customStrings = new Dictionary<string, string>();
 
 		public SettingsForm()
 		{
@@ -70,6 +69,17 @@ namespace K3_TOOLS
 
 			// Save other settings
 			Settings.Default.SortExistingFiles = ProjectSorterForm.sortExistingFiles;
+
+			int i = 0;
+			foreach (var kvp in customStrings)
+			{
+				if (Settings.Default.CustomKeyList.Contains(kvp.Key))
+				{
+					continue;
+				}
+				Settings.Default.CustomKeyList += kvp.Key + ",";
+				Settings.Default.CustomValueList += kvp.Value + ",";
+			}
 		}
 
 		private void SettingsForm_Load(object sender, EventArgs e)
@@ -123,6 +133,15 @@ namespace K3_TOOLS
 			// Load other settings
 			ProjectSorterForm.sortExistingFiles = Settings.Default.SortExistingFiles;
 			SortExistingFilesCheckBox.Checked = ProjectSorterForm.sortExistingFiles;
+
+			var keyList = Settings.Default.CustomKeyList.Split(',');
+			var valueList = Settings.Default.CustomKeyList.Split(',');
+
+			for (int i = 0; i < keyList.Count(); i++)
+			{
+				customStrings.Add(keyList[i], valueList[i]);
+				customStringComboBox.Items.Add(keyList[i]);
+			}
 		}
 
 		private void SortExistingFilesCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -137,7 +156,6 @@ namespace K3_TOOLS
 
 		private void FileTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{	
-			fileTypeIndex = fileTypeComboBox.SelectedIndex;
 			folderNameTextBox.Text = folderNames[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key];
 			filePrefixTextBox.Text = filePrefixes[((KeyValuePair<string, string>)fileTypeComboBox.SelectedItem).Key];
 		}
