@@ -43,6 +43,7 @@ namespace K3_TOOLS
 			this.addButton = new System.Windows.Forms.Button();
 			this.customStringComboBox = new System.Windows.Forms.ComboBox();
 			this.removeButton = new System.Windows.Forms.Button();
+			this.addedLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
 			// SortExistingFilesCheckBox
@@ -173,6 +174,7 @@ namespace K3_TOOLS
 			this.customStringComboBox.Name = "customStringComboBox";
 			this.customStringComboBox.Size = new System.Drawing.Size(121, 24);
 			this.customStringComboBox.TabIndex = 16;
+			this.customStringComboBox.DropDown += new System.EventHandler(this.CustomStringComboBox_DropDown);
 			this.customStringComboBox.SelectedIndexChanged += new System.EventHandler(this.CustomStringComboBox_SelectedIndexChanged);
 			// 
 			// removeButton
@@ -188,12 +190,21 @@ namespace K3_TOOLS
 			this.removeButton.UseVisualStyleBackColor = false;
 			this.removeButton.Click += new System.EventHandler(this.RemoveButton_Click);
 			// 
+			// addedLabel
+			// 
+			this.addedLabel.AutoSize = true;
+			this.addedLabel.Location = new System.Drawing.Point(387, 124);
+			this.addedLabel.Name = "addedLabel";
+			this.addedLabel.Size = new System.Drawing.Size(0, 17);
+			this.addedLabel.TabIndex = 18;
+			// 
 			// SettingsForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.Color.Gainsboro;
 			this.ClientSize = new System.Drawing.Size(800, 450);
+			this.Controls.Add(this.addedLabel);
 			this.Controls.Add(this.removeButton);
 			this.Controls.Add(this.customStringComboBox);
 			this.Controls.Add(this.addButton);
@@ -234,5 +245,6 @@ namespace K3_TOOLS
 		private System.Windows.Forms.Button addButton;
 		private System.Windows.Forms.ComboBox customStringComboBox;
 		private System.Windows.Forms.Button removeButton;
+		private System.Windows.Forms.Label addedLabel;
 	}
 }

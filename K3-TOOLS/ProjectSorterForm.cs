@@ -98,15 +98,23 @@ namespace K3_TOOLS
                 baseDirectoryLabel.Text = baseDirectory;
             }
 
-            // Load other settings
+            // Load user settings
+            LoadUserSettings();
+        }
+
+        private void LoadUserSettings()
+		{
+            Console.WriteLine("Loading User Settings...");
             sortExistingFiles = Settings.Default.SortExistingFiles;
 
+            customStrings.Clear();
             var keyList = Settings.Default.CustomKeyList.Split(',');
-            var valueList = Settings.Default.CustomKeyList.Split(',');
+            var valueList = Settings.Default.CustomValueList.Split(',');
 
             for (int i = 0; i < keyList.Count(); i++)
             {
-                customStrings.Add(keyList[i], valueList[i]);
+                if (keyList[i] != "")
+                    customStrings.Add(keyList[i], valueList[i]);
             }
         }
 
@@ -224,16 +232,11 @@ namespace K3_TOOLS
             
             foreach (FileType file in files.Values)
             {
-                // Check if the file contains a custom name to sort it into a custom folder
+                // Check if the file contains a custom name (customStrings.Keys) to sort it into a custom folder
                 foreach (var kvp in customStrings)
 				{
-                    if (kvp.Key == "")
-					{
-                        continue;
-					}
                     if (Path.GetFileName(file.FilePath).Contains(kvp.Key))
 					{
-                        Console.WriteLine(kvp.Key + kvp.Value);
                         file.SetFolderName(kvp.Value);
 					}
 				}
@@ -386,9 +389,7 @@ namespace K3_TOOLS
         private void SortFile(FileType file)
 		{
 			// Get the destinationPath of the current fileType
-			string destinationPath =
-				file.GetType() == typeof(GenericFile) ? baseDirectory :
-				Path.Combine(baseDirectory, file.FolderName);
+			string destinationPath = Path.Combine(baseDirectory, file.FolderName);
             
             string fileName = Path.GetFileNameWithoutExtension(file.FilePath);
             if (!Path.GetFileNameWithoutExtension(file.FilePath).Contains(file.FilePrefix))
@@ -396,7 +397,7 @@ namespace K3_TOOLS
                 fileName = file.FilePrefix + Path.GetFileNameWithoutExtension(file.FilePath);
             }
 
-                // Create a new directory if it doesn't exist yet
+            // Create a new directory if it doesn't exist yet
             if (!Directory.Exists(destinationPath))
 			{
 				Directory.CreateDirectory(destinationPath);
@@ -453,6 +454,7 @@ namespace K3_TOOLS
 
         private void ReloadSettings(object sender, EventArgs e)
 		{
+            LoadUserSettings();
             Dictionary<int, FileType> tempFiles = new Dictionary<int, FileType>();
 			foreach(int key in files.Keys)
             {

@@ -69,11 +69,11 @@ namespace K3_TOOLS
 
 			// Save other settings
 			Settings.Default.SortExistingFiles = ProjectSorterForm.sortExistingFiles;
-
-			int i = 0;
+			Settings.Default.CustomKeyList = "";
+			Settings.Default.CustomValueList = "";
 			foreach (var kvp in customStrings)
 			{
-				if (Settings.Default.CustomKeyList.Contains(kvp.Key))
+				if (kvp.Key == "")
 				{
 					continue;
 				}
@@ -135,12 +135,12 @@ namespace K3_TOOLS
 			SortExistingFilesCheckBox.Checked = ProjectSorterForm.sortExistingFiles;
 
 			var keyList = Settings.Default.CustomKeyList.Split(',');
-			var valueList = Settings.Default.CustomKeyList.Split(',');
+			var valueList = Settings.Default.CustomValueList.Split(',');
 
 			for (int i = 0; i < keyList.Count(); i++)
 			{
-				customStrings.Add(keyList[i], valueList[i]);
-				customStringComboBox.Items.Add(keyList[i]);
+				if (!customStrings.ContainsKey(keyList[i]) && keyList[i] != "")
+					customStrings.Add(keyList[i], valueList[i]);
 			}
 		}
 
@@ -177,25 +177,45 @@ namespace K3_TOOLS
 			if (!customStrings.ContainsKey(customStringComboBox.Text))
 			{
 				customStrings.Add(customStringComboBox.Text, folderName2TextBox.Text);
+				addedLabel.Text = "Added";
+				ClearAddLabelAsync();
 			}
 			else
 			{
 				customStrings[customStringComboBox.Text] = folderName2TextBox.Text;
+				addedLabel.Text = "Saved";
+				ClearAddLabelAsync();
 			}
-			customStringComboBox.Items.Add(customStringComboBox.Text);
+		}
+
+		private async void ClearAddLabelAsync()
+		{
+			await Task.Delay(1000);
+			addedLabel.Text = "";
+		}
+
+		private void CustomStringComboBox_DropDown(object sender, EventArgs e)
+		{
+			customStringComboBox.Items.Clear();
+			customStringComboBox.Items.AddRange(customStrings.Keys.ToArray());
 		}
 
 		private void CustomStringComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
+			if (customStrings.ContainsKey(customStringComboBox.Text))
 			folderName2TextBox.Text = customStrings[customStringComboBox.Text];
 		}
 
 		private void RemoveButton_Click(object sender, EventArgs e)
 		{
-			folderName2TextBox.Text = "";
-			customStringComboBox.Items.Remove(customStringComboBox.Text);
-			customStringComboBox.Text = "";
-			customStrings.Remove(customStringComboBox.Text);
+			if (customStrings.ContainsKey(customStringComboBox.Text))
+			{
+				customStrings.Remove(customStringComboBox.Text);
+				customStringComboBox.Text = "";
+				folderName2TextBox.Text = "";
+				addedLabel.Text = "Removed";
+				ClearAddLabelAsync();
+			}
 		}
 	}
 }
