@@ -374,6 +374,7 @@ namespace K3_TOOLS
             int key = files.FirstOrDefault(x => x.Value == file).Key;
             files.Remove(key);
             commands.RemoveAt(key);
+            commandIndex--;
             labels.Remove(label);
             buttons.Remove(button);
 		}
