@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AB7336B6-8141-4C87-AF65-15EF21EE0CAD}</ProjectGuid>
-    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <LangVersion>Latest</LangVersion>
     <OutputType>WinExe</OutputType>
     <RootNamespace>K3_TOOLS</RootNamespace>
@@ -14,7 +14,8 @@
     <GenerateResourceMSBuildRuntime>CurrentRuntime</GenerateResourceMSBuildRuntime>
     <GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\mijko\Downloads\test1\</PublishUrl>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\Users\Michael\Downloads\temp\test1\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -24,7 +25,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -61,7 +62,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>CB85233BD2E2FDD70CC1949CDBE748498A5C8B92</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>61CFFBC669228BE77C467A644F279B161F4CDF70</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>K3-TOOLS_TemporaryKey.pfx</ManifestKeyFile>
@@ -118,7 +119,9 @@
     <Compile Include="FileTypes\HtmlScript.cs" />
     <Compile Include="FileTypes\GenericFile.cs" />
     <Compile Include="ICommand.cs" />
-    <Compile Include="SettingsForm.cs" />
+    <Compile Include="SettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
@@ -127,7 +130,9 @@
     <Compile Include="FileTypes\Image.cs" />
     <Compile Include="FileTypes\FileType.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectSorterForm.cs" />
+    <Compile Include="ProjectSorterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProjectSorterForm.Designer.cs">
       <DependentUpon>ProjectSorterForm.cs</DependentUpon>
     </Compile>

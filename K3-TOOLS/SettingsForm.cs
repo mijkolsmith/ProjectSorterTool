@@ -11,14 +11,14 @@ namespace K3_TOOLS
 {
 	public partial class SettingsForm : Form
 	{
-		private Dictionary<string, string> folderNames = new Dictionary<string, string>();
-		private Dictionary<string, string> filePrefixes = new Dictionary<string, string>();
-		private Dictionary<string, string> customStrings = new Dictionary<string, string>();
-
 		public SettingsForm()
 		{
 			InitializeComponent();
 		}
+
+		private Dictionary<string, string> folderNames = new Dictionary<string, string>();
+		private Dictionary<string, string> filePrefixes = new Dictionary<string, string>();
+		private Dictionary<string, string> customStrings = new Dictionary<string, string>();
 
 		private void SettingsForm_FormClosing(object sender, FormClosingEventArgs e)
 		{

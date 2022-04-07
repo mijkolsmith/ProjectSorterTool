@@ -12,6 +12,11 @@ namespace K3_TOOLS
 {
 	public partial class ProjectSorterForm : Form
 	{
+        public ProjectSorterForm()
+        {
+            InitializeComponent();
+        }
+
         private string baseDirectory;
         public Dictionary<int, FileType> files = new Dictionary<int, FileType>();
         private List<ICommand> commands = new List<ICommand>();
@@ -34,11 +39,6 @@ namespace K3_TOOLS
         public static bool reloadSettings;
 
         private int commandIndex = -1;
-
-        public ProjectSorterForm()
-        {
-            InitializeComponent();
-        }
 
         /// <summary>
         /// Save User Settings
